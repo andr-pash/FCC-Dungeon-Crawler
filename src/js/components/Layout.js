@@ -45,8 +45,7 @@ export default class Layout extends React.Component {
 
         init() {
             let map = this.generateArray()
-            let rooms = this.createRooms(map)
-            map = this.addRooms(map, rooms)
+            map = this.createRooms(map)
             let cellsArray = _.cloneDeep(map)
 
 
@@ -59,21 +58,9 @@ export default class Layout extends React.Component {
 
             this.setState({ map })
             this.setState({ cellsArray })
-            this.setState({ rooms })
             this.setState({ player })
 
         }
-
-        // createRooms(){
-        //   return [
-        //     {
-        //       x: 10,
-        //       y: 10,
-        //       width: 20,
-        //       height: 20
-        //     }
-        //   ]
-        // }
 
         findPlayerStart(map) {
 
@@ -126,7 +113,7 @@ export default class Layout extends React.Component {
             roomArr.push(room(startSides, startSides, startX, startY))
 
 
-            let roomNum = 100
+            let roomNum = 40
             let roomCounter = 0
             while (roomCounter < roomNum) {
 
@@ -140,8 +127,8 @@ export default class Layout extends React.Component {
                   [currRoom.x + currRoom.width, currRoom.y + currRoom.height],
                   [currRoom.x, currRoom.y + currRoom.height]
               ]
-              let width = intRange(5, 10)
-              let height = intRange(3, 10)
+              let width = intRange(3, 20)
+              let height = intRange(3, 15)
               let x, y, corrX, corrY
 
 
@@ -177,32 +164,43 @@ export default class Layout extends React.Component {
               let newRoom = room(width, height, x, y)
               let newCorr = corridor(corrX, corrY)
 
-
+              // TODO: look for more elegant solution, may store in array and then reduce...
               // if room fits into map and has no overlaps with other rooms, add it to map
               let fitsMap = x > 0 && (x + width) <  map[0].length && y > 0 && (y + height) < map.length
-              //let noOverlap = 
-
 
               if(fitsMap){
-                roomArr.push(newRoom)
-                roomArr.push(newCorr)
-                console.log(room(width, height, x, y), corridor(corrX, corrY))
-                roomCounter += 2
+
+                  // top left corner
+                  let tl = map[newRoom.y][newRoom.x] === 'wall'
+                  // top right corner
+                  let tr = map[newRoom.y][newRoom.x + newRoom.width] === 'wall'
+                  // bottom right corner
+                  let br = map[newRoom.y + newRoom.height][newRoom.x + newRoom.width] === 'wall'
+                  // bottom left corner
+                  let bl = map[newRoom.y + newRoom.height][newRoom.x] === 'wall'
+
+                  let noOverlap = tl === true && tr === true && br === true && bl === true
+
+
+                  if(noOverlap){
+                    map = this.addRooms(map, newRoom)
+                    map = this.addRooms(map, newCorr)
+                    roomArr.push(newCorr)
+                    roomArr.push(newRoom)
+                    
+                    roomCounter += 2
               }
 
-
+            }
 
             }
 
             return map
         }
 
-        addRooms(map, rooms) {
+        addRooms(map, room) {
 
 
-            for (let i = 0; i < rooms.length; i++) {
-
-                let room = rooms[i]
                 map = map.map((el, row) => {
                     return el.map((e, col) => {
 
@@ -212,7 +210,7 @@ export default class Layout extends React.Component {
                         let inYRange = row >= room.y && row <= room.y + room.height
 
                         if (inXRange && inYRange) {
-                            newEl = 'room '  + 'room' + i
+                            newEl = 'room'
                         }
 
                         return newEl
@@ -220,11 +218,14 @@ export default class Layout extends React.Component {
 
                     })
                 })
-            }
 
             return map
 
         }
+
+
+
+
 
 
 
@@ -262,8 +263,7 @@ export default class Layout extends React.Component {
             //collision logic
             let cellsArray = _.cloneDeep(this.state.map)
             if (cellsArray[newPos[1]][newPos[0]] !== 'room') {
-                console.log(cellsArray[newPos[1]][newPos[0]])
-                console.log(newPos, this.state.player.position)
+
                 return
             }
 
@@ -273,7 +273,6 @@ export default class Layout extends React.Component {
 
 
             cellsArray[newPos[1]][newPos[0]] = 'player'
-
 
             this.setState({ player })
             this.setState({ cellsArray })
