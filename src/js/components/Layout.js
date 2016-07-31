@@ -4,7 +4,13 @@ import _ from 'lodash'
 
 
 // random int in range between a and b 
-let intRange = (a, b) => Math.floor(Math.random() * (b - a)) + a
+const intRange = (a, b) => Math.floor(Math.random() * (b - a)) + a
+
+const euclidDistance = (a, b) => {
+    return (
+        Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2))
+    )
+}
 
 
 export default class Layout extends React.Component {
@@ -13,8 +19,8 @@ export default class Layout extends React.Component {
 
             this.state = {
                 viewport: {
-                    rows: 100,
-                    columns: 100
+                    rows: 30,
+                    columns: 50
                 },
                 mapSize: {
                     rows: 100,
@@ -22,7 +28,7 @@ export default class Layout extends React.Component {
                 },
                 cellsArray: [],
                 player: {
-                    position: [25, 25],
+                    position: [],
                     health: 100,
                     weapon: 'sword'
                 },
@@ -286,45 +292,48 @@ export default class Layout extends React.Component {
 
         }
 
-        euclidDistance(a, b) {
-            return (
-                Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2))
-            )
-        }
+
 
         render() {
 
                 let playerPos = this.state.player.position
+                console.log(playerPos)
                 let xView = this.state.viewport.columns / 2
                 let yView = this.state.viewport.rows / 2
                 let viewport = this.state.cellsArray
 
-                // cut out cells to be displayed
-                    .filter((e, i) => {
-                        return i > playerPos[1] - yView && i < playerPos[1] + yView
-                    })
-                    .map(el => {
-                        return el.filter((cell, i) => {
-                            return i > playerPos[0] - xView && i < playerPos[0] + xView
-                        })
-                    })
+                    .splice(Math.max(0, playerPos[1] - yView), this.state.viewport.rows)
+                    .map( el => el.splice(Math.max(0, playerPos[0] - xView), this.state.viewport.columns))
 
+                // cut out cells to be displayed
+                    // .filter((e, i) => {
+                    //     return i > playerPos[1] - yView && i < playerPos[1] + yView
+                    // })
+                    // .map(el => {
+                    //     return el.filter((cell, i) => {
+                    //         return i > playerPos[0] - xView && i < playerPos[0] + xView
+                    //     })
+                    // })
+
+
+                // TODO: CORRECT PLAYER POSITION SO CALCS ARE WORKING AGAIN
                 // darken cells that are not in players proximity
-                // .map( (outerEl, outerInd) => outerEl.map( (innerEl, innerInd) => {
+                // viewport = viewport.map( (outerEl, outerInd) => outerEl.map( (innerEl, innerInd) => {
                 //   let newEl = innerEl;
                 //   let a = Math.abs(playerPos[0] - innerInd)
                 //   let b = Math.abs(playerPos[1] - outerInd)
-                //   if(this.euclidDistance(a, b) > 10){
+                //   if(euclidDistance(a, b) > 10){
                 //     newEl = innerEl + ' darken'
                 //   }
                 //   return newEl
                 // }))
 
+                console.log(viewport)
 
             return ( 
                 <div>
 
-                    <h1>FCC Game of Life</h1>
+                    <h1>FCC Rogue Dungeon Crawler</h1>
 
                     <GameBoard 
                       cellsArray={viewport} 
