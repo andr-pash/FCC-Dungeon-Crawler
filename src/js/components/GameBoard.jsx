@@ -34,20 +34,14 @@ class GameBoard extends React.Component {
 		// console.log(plPos, relPlPosX, relPlPosY, startCol)
 
 		// only cut out relevent part of map
-		// position player on top of map
+		// position player on top of map	
 
-		let view = [[]]
-		for(let i = 0; i < vPort.rows; i++){
-			for(let j = 0; j < vPort.columns; j++){
-				view[i][j] = gameMap[startRow + i][startCol + j]
-			}
-		}
 
-		view = view.map( (outerArr, outerIndex) => {
+		let cellsRows = gameMap.map( (outerArr, outerIndex) => {
 
 			let cells = outerArr.map( (element, innerIndex) => {
 
-				if(outerIndex === relPlPosY && innerIndex === relPlPosX) {
+				if(outerIndex === plPos[1] && innerIndex === plPos[0]) {
 					element = 'player'
 				}
 
@@ -64,39 +58,12 @@ class GameBoard extends React.Component {
 					{cells}
 				</tr>
 				)
-		})		
-
-
-		// let cellsRows = gameMap.slice(startRow, vPort.rows)
-		// 	.map( el => el.slice(startCol, vPort.columns))
-
-		// 	.map( (outerArr, outerIndex) => {
-
-		// 	let cells = outerArr.map( (element, innerIndex) => {
-
-		// 		if(outerIndex === relPlPosY && innerIndex === relPlPosX) {
-		// 			element = 'player'
-		// 		}
-
-		// 		return(
-		// 			<Cell 
-		// 				value={element} 
-		// 				key={innerIndex}
-		// 				innerIndex={innerIndex}
-		// 				outerIndex={outerIndex} />
-		// 			)
-		// 	})
-		// 	return(
-		// 		<tr key={outerIndex}>
-		// 			{cells}
-		// 		</tr>
-		// 		)
-		// })
+		})
 
 		return(
 				<table className="gameboard">
 					<tbody>
-						{view}
+						{cellsRows}
 					</tbody>
 				</table>
 			)
