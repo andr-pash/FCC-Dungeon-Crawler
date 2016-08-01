@@ -236,6 +236,7 @@ export default class Layout extends React.Component {
 
 
         // builds the array the map is carved out of
+        // TODO: rewrite as binary arr, because space and maybe fast
         generateArray() {
 
             let j = 0

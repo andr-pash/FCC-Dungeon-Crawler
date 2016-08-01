@@ -24,6 +24,8 @@ class GameBoard extends React.Component {
 		let plPos = player.position
 		let vPort = this.props.viewport
 		let gameMap = this.props.gameMap
+
+			// let's call it fog of war 
             .map( (outerEl, outerInd) => outerEl.map( (innerEl, innerInd) => {
               let newEl = innerEl;
               let a = Math.abs(plPos[0] - innerInd)
@@ -36,14 +38,22 @@ class GameBoard extends React.Component {
 
 		// let gameMap = _.cloneDeep(this.props.gameMap)
 
-
+		// VIEWPORT MAGIC
 		let startRow = Math.max(0, plPos[1] - (vPort.rows / 2))
 		let endRow = Math.min(gameMap.length, plPos[1] + (vPort.rows / 2))
 
+		if(Math.abs(endRow - startRow) < vPort.rows){
+			startRow === 0 ? endRow = vPort.rows : startRow = (endRow - vPort.rows)
+		}
+
 		let startCol = Math.max(0, plPos[0] - (vPort.columns /2))
 		let endCol = Math.min(gameMap[0].length, plPos[0] + (vPort.columns / 2))
-		
 
+		if(Math.abs(endCol - startCol) < vPort.columns){
+			startCol === 0 ? endCol = vPort.columns : startCol = (endCol - vPort.columns)
+		}	
+		
+		console.log(plPos)
 		// relative Player position to viewport
 		let relPlPosX = plPos[0] - startCol
 		let relPlPosY = plPos[1] - startRow
@@ -54,46 +64,67 @@ class GameBoard extends React.Component {
 
 		gameMap[plPos[1]][plPos[0]] = 'player'
 
-		let cellsRows = []
-		let j = 0
+		// let cellsRows = []
+		// let j = 0
 
-		while(j < vPort.rows){
-			let innerArr = []
-			let i = 0
+		// while(j < vPort.rows){
+		// 	let innerArr = []
+		// 	let i = 0
 
-			while(i < vPort.columns){
-				let el = gameMap[startRow + j][startCol + i]
-				innerArr.push(el?el:'wall')
-				i++
-			}
+		// 	while(i < vPort.columns){
+		// 		let el = gameMap[startRow + j][startCol + i]
+		// 		innerArr.push(el?el:'wall')
+		// 		i++
+		// 	}
 
-			cellsRows.push(innerArr)
-			j++
-		}
+		// 	cellsRows.push(innerArr)
+		// 	j++
+		// }
+
+		// console.log(cellsRows)
+
+		// cellsRows = cellsRows.map( (outerArr, outerIndex) => {
+
+		// 	let cells = outerArr.map( (element, innerIndex) => {
+
+		// 		return(
+		// 			<Cell 
+		// 				value={element} 
+		// 				key={innerIndex}
+		// 				innerIndex={innerIndex}
+		// 				outerIndex={outerIndex} />
+		// 			)
+		// 	})
+		// 	return(
+		// 		<tr key={outerIndex}>
+		// 			{cells}
+		// 		</tr>
+		// 		)
+		// })
+
+
+		let cellsRows = gameMap.slice(startRow, endRow)
+						.map( el => el.slice(startCol, endCol))
+						.map( (outerArr, outerIndex) => {
+
+							let cells = outerArr.map( (element, innerIndex) => {
+
+								return (
+									<Cell 
+										value={element} 
+										key={innerIndex}
+										innerIndex={innerIndex}
+										outerIndex={outerIndex} />
+									)
+							})
+							return (
+								<tr key={outerIndex}>
+									{cells}
+								</tr>
+								)
+						})
 
 		console.log(cellsRows)
-
-		cellsRows = cellsRows.map( (outerArr, outerIndex) => {
-
-			let cells = outerArr.map( (element, innerIndex) => {
-
-				return(
-					<Cell 
-						value={element} 
-						key={innerIndex}
-						innerIndex={innerIndex}
-						outerIndex={outerIndex} />
-					)
-			})
-			return(
-				<tr key={outerIndex}>
-					{cells}
-				</tr>
-				)
-		})
-
-
-
 
 
 
