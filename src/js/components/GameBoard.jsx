@@ -31,7 +31,6 @@ class GameBoard extends React.Component {
 		let relPlPosX = plPos[0] - startCol
 		let relPlPosY = plPos[1] - startRow
 
-		// console.log(plPos, relPlPosX, relPlPosY, startCol)
 
 		// only cut out relevent part of map
 		// position player on top of map	

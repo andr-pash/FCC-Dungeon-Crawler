@@ -19,8 +19,8 @@ export default class Layout extends React.Component {
 
             this.state = {
                 viewport: {
-                    rows: 100,
-                    columns: 100
+                    rows: 30,
+                    columns: 50
                 },
                 mapSize: {
                     rows: 100,
@@ -29,7 +29,9 @@ export default class Layout extends React.Component {
                 player: {
                     position: [],
                     health: 100,
-                    weapon: 'sword'
+                    weapon: 'sword',
+                    xp: 0,
+                    level: 1
                 },
                 map: [[]]
 
@@ -82,19 +84,19 @@ export default class Layout extends React.Component {
         // MAP GENERATOR - tweak numbers in switch to get interesting results
         createRooms(map) {
 
-            function room(width, height, x, y) {
+            function Room(width, height, x, y) {
                 return { x, y, width, height }
             }
 
             // Setup for random dungeon creation - choose location of 'seed' and number of rooms
             let roomArr = []
             let sides = ['top', 'right', 'bottom', 'left']
-            let roomNum = 50 // number total rooms - 50 seems good - 60 doesn't work any more
+            let roomNum = 35 // number total rooms - 50 seems good - 60 doesn't work any more
             let startSides = 14 //
             let startX = this.state.mapSize.columns / 2 - startSides / 2
             let startY = this.state.mapSize.rows / 2 - startSides / 2
 
-            let seedRoom = room(startSides, startSides, startX, startY)
+            let seedRoom = Room(startSides, startSides, startX, startY)
             roomArr.push(seedRoom)
             map = this.addRooms(map, seedRoom)
 
@@ -115,10 +117,9 @@ export default class Layout extends React.Component {
                     bottLeft: [currRoom.x, currRoom.y + currRoom.height]
                 }
 
-                let width = intRange(3, 20)
-                let height = intRange(3, 15)
-                let x, y, corrX, corrY, range1, range2
-
+                let x, y, corrX, corrY, range1, range2, width, height
+                width = intRange(3, 20)
+                height = intRange(3, 15)
 
 
                 switch (side) {
@@ -160,8 +161,8 @@ export default class Layout extends React.Component {
                 }
 
 
-                let newRoom = room(width, height, x, y)
-                let newCorr = room(0, 0, corrX, corrY)
+                let newRoom = Room(width, height, x, y)
+                let newCorr = Room(0, 0, corrX, corrY)
 
                 // TODO: look for more elegant solution, may store in array and then reduce...
                 // if room fits into map and has no overlaps with other rooms, add it to map
@@ -203,7 +204,7 @@ export default class Layout extends React.Component {
 
                 runCounter += 1
             }
-
+            console.log('roomArr:',roomArr)
             return map
         }
 

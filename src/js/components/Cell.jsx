@@ -1,18 +1,15 @@
 import React from 'react'
 
 
-class Cell extends React.Component{
-	render(){
-
-		let className = this.props.value
+const Cell = (props) => {
 
 		return(
 				<td 
-					className={`cell ${className}`}
+					className={`cell ${props.value}`}
 				>
 				</td>
 			)
 	}
-}
+
 
 export default Cell
