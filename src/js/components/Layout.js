@@ -19,21 +19,20 @@ export default class Layout extends React.Component {
 
             this.state = {
                 viewport: {
-                    rows: 30,
-                    columns: 50
+                    rows: 100,
+                    columns: 100
                 },
                 mapSize: {
                     rows: 100,
                     columns: 100,
                 },
-                cellsArray: [],
                 player: {
                     position: [],
                     health: 100,
                     weapon: 'sword'
                 },
                 rooms: [],
-                map: []
+                map: [[]]
 
             }
 
@@ -52,19 +51,15 @@ export default class Layout extends React.Component {
         init() {
             let map = this.generateArray()
             map = this.createRooms(map)
-            let cellsArray = _.cloneDeep(map)
-
 
             let player = this.state.player
             let playerPos = this.findPlayerStart(map)
-            let playerX = playerPos[0]
-            let playerY = playerPos[1]
             player.position = playerPos
-            cellsArray[playerY][playerX] = 'player'
 
             this.setState({ map })
-            this.setState({ cellsArray })
             this.setState({ player })
+            console.log('player:', player)
+            console.log('initmap:', map)
 
         }
 
@@ -78,15 +73,16 @@ export default class Layout extends React.Component {
 
             let pos = newPos()
 
-
             while (map[pos[1]][pos[0]] === 'wall') {
                 pos = newPos()
               }
-
             return pos
         }
 
 
+
+        // MAP GENERATOR - TODO: FIX THIS MESS!!!
+        // doesn't reliably deliver interconnected dungeons - because me stupid
         createRooms(map) {
 
             function room(width, height, x, y) {
@@ -259,29 +255,32 @@ export default class Layout extends React.Component {
 
         move(e) {
             let key = e.keyCode
+            // console.log(key)
             let player = this.state.player
-            let newPos = _.cloneDeep(this.state.player.position)
-            if (key === 38) newPos[1] = newPos[1] - 1
-            if (key === 40) newPos[1] = newPos[1] + 1
-            if (key === 37) newPos[0] = newPos[0] - 1
-            if (key === 39) newPos[0] = newPos[0] + 1
+            let playerPos = player.position
+            let newPos = []
+            if (key === 38) newPos = [playerPos[0], playerPos[1] - 1]
+            if (key === 40) newPos = [playerPos[0], playerPos[1] + 1]
+            if (key === 37) newPos = [playerPos[0] - 1, playerPos[1]]
+            if (key === 39) newPos = [playerPos[0] + 1, playerPos[1]]
+            // console.log('playerPos:', playerPos)
+            // console.log('newPos:', newPos)
+            // console.log('map:', this.state.map)
 
-            //collision logic
-            let cellsArray = _.cloneDeep(this.state.map)
-            if (cellsArray[newPos[1]][newPos[0]] !== 'room') {
+            //collision logic - expand this for treasure/enemy etc.
+            // console.log(this.state.map[newPos[1]][newPos[0]])
 
+            if (this.state.map[newPos[1]][newPos[0]] !== 'room') {
                 return
             }
 
 
             player.position = newPos
 
-
-
-            cellsArray[newPos[1]][newPos[0]] = 'player'
+            // console.log(player)
 
             this.setState({ player })
-            this.setState({ cellsArray })
+
 
         }
 
@@ -297,38 +296,6 @@ export default class Layout extends React.Component {
         render() {
 
                 let playerPos = this.state.player.position
-                console.log(playerPos)
-                let xView = this.state.viewport.columns / 2
-                let yView = this.state.viewport.rows / 2
-                let viewport = this.state.cellsArray
-
-                    .splice(Math.max(0, playerPos[1] - yView), this.state.viewport.rows)
-                    .map( el => el.splice(Math.max(0, playerPos[0] - xView), this.state.viewport.columns))
-
-                // cut out cells to be displayed
-                    // .filter((e, i) => {
-                    //     return i > playerPos[1] - yView && i < playerPos[1] + yView
-                    // })
-                    // .map(el => {
-                    //     return el.filter((cell, i) => {
-                    //         return i > playerPos[0] - xView && i < playerPos[0] + xView
-                    //     })
-                    // })
-
-
-                // TODO: CORRECT PLAYER POSITION SO CALCS ARE WORKING AGAIN
-                // darken cells that are not in players proximity
-                // viewport = viewport.map( (outerEl, outerInd) => outerEl.map( (innerEl, innerInd) => {
-                //   let newEl = innerEl;
-                //   let a = Math.abs(playerPos[0] - innerInd)
-                //   let b = Math.abs(playerPos[1] - outerInd)
-                //   if(euclidDistance(a, b) > 10){
-                //     newEl = innerEl + ' darken'
-                //   }
-                //   return newEl
-                // }))
-
-                console.log(viewport)
 
             return ( 
                 <div>
@@ -336,7 +303,9 @@ export default class Layout extends React.Component {
                     <h1>FCC Rogue Dungeon Crawler</h1>
 
                     <GameBoard 
-                      cellsArray={viewport} 
+                      gameMap={ this.state.map }
+                      player={ this.state.player }
+                      viewport={ this.state.viewport } 
                     />
                     
                 </div>
