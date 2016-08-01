@@ -4,7 +4,7 @@ import _ from 'lodash'
 
 
 // random int in range between a and b 
-const intRange = (a, b) => Math.floor(Math.random() * (b - a)) + a
+const intRange = (a, b) => Math.floor(Math.random() * ((b + 1) - a)) + a
 
 const euclidDistance = (a, b) => {
     return (
@@ -87,7 +87,6 @@ export default class Layout extends React.Component {
             }
 
             // Setup for random dungeon creation - choose location of 'seed' and number of rooms
-
             let roomArr = []
             let sides = ['top', 'right', 'bottom', 'left']
             let roomNum = 50 // number total rooms - 50 seems good - 60 doesn't work any more
@@ -100,14 +99,13 @@ export default class Layout extends React.Component {
             map = this.addRooms(map, seedRoom)
 
 
-
-
+            let runCounter = 0
             let roomCounter = 0
-            while (roomCounter < roomNum) {
+            while (roomCounter < roomNum && runCounter < 800) {
 
                 // choose random wall - 4 decisions: top bottom, left right
 
-                let side = sides[intRange(0, 4)]
+                let side = sides[intRange(0, 3)]
                 let currRoom = roomArr[roomCounter]
 
                 let corners = {
@@ -167,25 +165,33 @@ export default class Layout extends React.Component {
 
                 // TODO: look for more elegant solution, may store in array and then reduce...
                 // if room fits into map and has no overlaps with other rooms, add it to map
-                let fitsVert = y > 0 && (y + height) < map.length - 1
-                let fitsHorz = x > 0 && (x + width) < map[0].length - 1
-                let fitsMap = fitsVert && fitsVert
+                let fitsVert = y > 2 && (y + height) < map.length - 3
+                let fitsHorz = x > 2 && (x + width) < map[0].length - 3
+                let fitsMap = fitsVert && fitsHorz
 
                 if (fitsMap) {
 
                     // top left corner
                     let tl = map[newRoom.y][newRoom.x] === 'wall'
-                        // top right corner
+                    // top right corner
                     let tr = map[newRoom.y][newRoom.x + newRoom.width] === 'wall'
-                        // bottom right corner
+                    // bottom right corner
                     let br = map[newRoom.y + newRoom.height][newRoom.x + newRoom.width] === 'wall'
-                        // bottom left corner
+                    // bottom left corner
                     let bl = map[newRoom.y + newRoom.height][newRoom.x] === 'wall'
+                    
+
+                    // if rooms are desired to be more separated - maybe room size needs to be reduced then 
+                    let tl1 = map[newRoom.y - 1][newRoom.x - 1] === 'wall'
+                    let tr1 = map[newRoom.y - 1][newRoom.x + newRoom.width + 1] === 'wall'
+                    let br1 = map[newRoom.y + newRoom.height + 1][newRoom.x + newRoom.width + 1] === 'wall'
+                    let bl1 = map[newRoom.y + newRoom.height + 1][newRoom.x - 1] === 'wall'
+
 
                     let noOverlap = tl && tr && br && bl
+                    let strictNoOverlap = tl1 && tr1 && br1 && bl1
 
-
-                    if (noOverlap) {
+                    if (noOverlap && strictNoOverlap) {
                         map = this.addRooms(map, newRoom)
                         map = this.addRooms(map, newCorr)
                         roomArr.push(newRoom)
@@ -195,6 +201,7 @@ export default class Layout extends React.Component {
 
                 }
 
+                runCounter += 1
             }
 
             return map
@@ -249,8 +256,8 @@ export default class Layout extends React.Component {
 
 
         move(e) {
+
             let key = e.keyCode
-            // console.log(key)
             let player = this.state.player
             let playerPos = player.position
             let newPos = []
@@ -258,32 +265,20 @@ export default class Layout extends React.Component {
             if (key === 40) newPos = [playerPos[0], playerPos[1] + 1]
             if (key === 37) newPos = [playerPos[0] - 1, playerPos[1]]
             if (key === 39) newPos = [playerPos[0] + 1, playerPos[1]]
-            // console.log('playerPos:', playerPos)
-            // console.log('newPos:', newPos)
-            // console.log('map:', this.state.map)
-
-            //collision logic - expand this for treasure/enemy etc.
-            // console.log(this.state.map[newPos[1]][newPos[0]])
 
             if (this.state.map[newPos[1]][newPos[0]] !== 'room') {
                 return
             }
 
-
             player.position = newPos
 
-            // console.log(player)
-
             this.setState({ player })
-
-
         }
 
 
 
         handleMovement() {
             document.addEventListener("keydown", this.move, false)
-
         }
 
 
