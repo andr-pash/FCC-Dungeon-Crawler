@@ -29,11 +29,16 @@ export default class Layout extends React.Component {
                 player: {
                     position: [],
                     health: 100,
-                    weapon: 'sword',
+                    weapon: 'stick',
                     xp: 0,
-                    level: 1
+                    level: 1,
+                    sight: 5,
+                    strength: 5,
+                    armor: 0
                 },
-                map: [[]]
+                map: [[]],
+                darkness: true
+
 
             }
 
@@ -59,8 +64,6 @@ export default class Layout extends React.Component {
 
             this.setState({ map })
             this.setState({ player })
-            console.log('player:', player)
-            console.log('initmap:', map)
 
         }
 
@@ -204,7 +207,6 @@ export default class Layout extends React.Component {
 
                 runCounter += 1
             }
-            console.log('roomArr:',roomArr)
             return map
         }
 
@@ -287,6 +289,18 @@ export default class Layout extends React.Component {
         render() {
 
                 let playerPos = this.state.player.position
+
+                // TODO: CORRECT PLAYER POSITION SO CALCS ARE WORKING AGAIN
+                // darken cells that are not in players proximity
+                // viewport = viewport.map( (outerEl, outerInd) => outerEl.map( (innerEl, innerInd) => {
+                //   let newEl = innerEl;
+                //   let a = Math.abs(playerPos[0] - innerInd)
+                //   let b = Math.abs(playerPos[1] - outerInd)
+                //   if(euclidDistance(a, b) > 10){
+                //     newEl = innerEl + ' darken'
+                //   }
+                //   return newEl
+                // }))
 
             return ( 
                 <div>
