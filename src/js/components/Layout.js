@@ -6,13 +6,6 @@ import _ from 'lodash'
 // random int in range between a and b 
 const intRange = (a, b) => Math.floor(Math.random() * ((b + 1) - a)) + a
 
-const euclidDistance = (a, b) => {
-    return (
-        Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2))
-    )
-}
-
-
 export default class Layout extends React.Component {
         constructor() {
             super();
@@ -258,7 +251,6 @@ export default class Layout extends React.Component {
 
 
 
-
         move(e) {
 
             let key = e.keyCode
@@ -285,23 +277,10 @@ export default class Layout extends React.Component {
             document.addEventListener("keydown", this.move, false)
         }
 
-
-
         render() {
 
                 let playerPos = this.state.player.position
 
-                // TODO: CORRECT PLAYER POSITION SO CALCS ARE WORKING AGAIN
-                // darken cells that are not in players proximity
-                // viewport = viewport.map( (outerEl, outerInd) => outerEl.map( (innerEl, innerInd) => {
-                //   let newEl = innerEl;
-                //   let a = Math.abs(playerPos[0] - innerInd)
-                //   let b = Math.abs(playerPos[1] - outerInd)
-                //   if(euclidDistance(a, b) > 10){
-                //     newEl = innerEl + ' darken'
-                //   }
-                //   return newEl
-                // }))
 
             return ( 
                 <div>

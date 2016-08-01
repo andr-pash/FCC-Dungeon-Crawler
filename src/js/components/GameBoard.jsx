@@ -9,12 +9,6 @@ const euclidDistance = (a, b) => {
 }
 
 class GameBoard extends React.Component {
-
-	constructor(props){
-		super(props)
-	}
-
-
 	
 
 	render(){
@@ -53,7 +47,7 @@ class GameBoard extends React.Component {
 			startCol === 0 ? endCol = vPort.columns : startCol = (endCol - vPort.columns)
 		}	
 		
-		console.log(plPos)
+
 		// relative Player position to viewport
 		let relPlPosX = plPos[0] - startCol
 		let relPlPosY = plPos[1] - startRow
@@ -63,45 +57,6 @@ class GameBoard extends React.Component {
 		// position player on top of map	
 
 		gameMap[plPos[1]][plPos[0]] = 'player'
-
-		// let cellsRows = []
-		// let j = 0
-
-		// while(j < vPort.rows){
-		// 	let innerArr = []
-		// 	let i = 0
-
-		// 	while(i < vPort.columns){
-		// 		let el = gameMap[startRow + j][startCol + i]
-		// 		innerArr.push(el?el:'wall')
-		// 		i++
-		// 	}
-
-		// 	cellsRows.push(innerArr)
-		// 	j++
-		// }
-
-		// console.log(cellsRows)
-
-		// cellsRows = cellsRows.map( (outerArr, outerIndex) => {
-
-		// 	let cells = outerArr.map( (element, innerIndex) => {
-
-		// 		return(
-		// 			<Cell 
-		// 				value={element} 
-		// 				key={innerIndex}
-		// 				innerIndex={innerIndex}
-		// 				outerIndex={outerIndex} />
-		// 			)
-		// 	})
-		// 	return(
-		// 		<tr key={outerIndex}>
-		// 			{cells}
-		// 		</tr>
-		// 		)
-		// })
-
 
 		let cellsRows = gameMap.slice(startRow, endRow)
 						.map( el => el.slice(startCol, endCol))
@@ -124,32 +79,7 @@ class GameBoard extends React.Component {
 								)
 						})
 
-		console.log(cellsRows)
 
-
-
-		// let cellsRows = gameMap.map( (outerArr, outerIndex) => {
-
-		// 	let cells = outerArr.map( (element, innerIndex) => {
-
-		// 		if(outerIndex === plPos[1] && innerIndex === plPos[0]) {
-		// 			element = 'player'
-		// 		}
-
-		// 		return(
-		// 			<Cell 
-		// 				value={element} 
-		// 				key={innerIndex}
-		// 				innerIndex={innerIndex}
-		// 				outerIndex={outerIndex} />
-		// 			)
-		// 	})
-		// 	return(
-		// 		<tr key={outerIndex}>
-		// 			{cells}
-		// 		</tr>
-		// 		)
-		// })
 
 		return(
 				<table className="gameboard">
