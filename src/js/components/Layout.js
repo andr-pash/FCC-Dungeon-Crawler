@@ -1,6 +1,7 @@
 import React from "react";
 import GameBoard from "./GameBoard.jsx"
-import { generateArray, addRooms, createRooms, intRange } from '../mapgenerator.js'
+import MapGen from "../mapGenClass.js"
+// import { generateArray, addRooms, createRooms, intRange } from '../mapgenerator.js'
 //import inventory from '../dungeonstuff.js'
 //console.log(inventory)
 
@@ -9,7 +10,9 @@ function Treasure(gold, position){
     this.gold = gold
     this.position = position
 }
-
+function intRange(a, b) {
+        return Math.floor(Math.random() * ((b + 1) - a)) + a
+    }
 export default class Layout extends React.Component {
         constructor() {
             super();
@@ -61,25 +64,18 @@ export default class Layout extends React.Component {
         }
 
         init() {
-            let map = generateArray(this.state.mapSize.columns, this.state.mapSize.rows)
-            map = createRooms(map, this.state.mapSize.columns, this.state.mapSize.rows)
+            let mapGen = new MapGen(this.state.mapSize.columns, this.state.mapSize.rows)
+            mapGen.createMap()
+            console.log(mapGen)
+            let map = mapGen.gameMap
+
+            
 
             //player setup
             let player = this.state.player
             let playerPos = this.findFreeTile(map)
             player.position = playerPos
 
-            //rest of the dungeon setup
-            let treasures = []
-            let i = 0
-            while(i < 10){
-                let newPos = this.findFreeTile(map)
-                let treasure = new Treasure(5, newPos)
-                treasures.push( treasure )
-                this.setTile(map, newPos, treasure)
-                i++
-            }
-            console.log(treasures)
 
             this.setState({ map })
             this.setState({ player })
