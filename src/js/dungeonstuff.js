@@ -42,7 +42,7 @@ const smallAxe = {
     chance: .65
 }
 
-const weapons = [ sword, dagger, stick, smallAxe ]
+const weapons = { sword, dagger, stick, smallAxe }
 
 // LIGHT
 
@@ -58,13 +58,13 @@ const giantTorch = {
     sight: 12
 }
 
-const torches = [ smallTorch, mediumTorch, giantTorch ]
+const torches = { smallTorch, mediumTorch, giantTorch }
 
 
 const inventory = {
-    treasures: treasure,
-    monsters: monster,
-    boss: boss,
+    treasures: { treasure },
+    monsters: { monster },
+    boss: { boss },
     weapons: weapons,
     torches: torches
 }

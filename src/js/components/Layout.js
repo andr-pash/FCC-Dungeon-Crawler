@@ -1,6 +1,5 @@
 import React from "react";
 import GameBoard from "./GameBoard.jsx"
-import _ from 'lodash'
 import { generateArray, addRooms, createRooms, intRange } from '../mapgenerator.js'
 import inventory from '../dungeonstuff.js'
 console.log(inventory)

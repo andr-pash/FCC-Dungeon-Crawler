@@ -32,7 +32,7 @@ class GameBoard extends React.Component {
 					newEl = innerEl + ' darken'
 					}
 				}
-				
+
 				return newEl
             }))
 
@@ -53,11 +53,6 @@ class GameBoard extends React.Component {
 			startCol === 0 ? endCol = vPort.columns : startCol = (endCol - vPort.columns)
 		}	
 		
-
-		// relative Player position to viewport
-		let relPlPosX = plPos[0] - startCol
-		let relPlPosY = plPos[1] - startRow
-
 
 		// only cut out relevent part of map
 		// position player on top of map	
