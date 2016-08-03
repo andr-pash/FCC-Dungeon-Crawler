@@ -25,6 +25,8 @@ class GameBoard extends React.Component {
 
 				let newEl = innerEl
 
+
+
 				if(darkness === true){	
 					let a = Math.abs(plPos[0] - innerInd)
 					let b = Math.abs(plPos[1] - outerInd)
@@ -36,7 +38,6 @@ class GameBoard extends React.Component {
 				return newEl
             }))
 
-		// let gameMap = _.cloneDeep(this.props.gameMap)
 
 		// VIEWPORT MAGIC
 		let startRow = Math.max(0, plPos[1] - (vPort.rows / 2))
@@ -53,9 +54,6 @@ class GameBoard extends React.Component {
 			startCol === 0 ? endCol = vPort.columns : startCol = (endCol - vPort.columns)
 		}	
 		
-
-		// only cut out relevent part of map
-		// position player on top of map	
 
 		gameMap[plPos[1]][plPos[0]] = 'player'
 

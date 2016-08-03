@@ -1,9 +1,13 @@
 import React from "react";
 import GameBoard from "./GameBoard.jsx"
 import { generateArray, addRooms, createRooms, intRange } from '../mapgenerator.js'
-import inventory from '../dungeonstuff.js'
-console.log(inventory)
+//import inventory from '../dungeonstuff.js'
+//console.log(inventory)
 
+function Treasure(gold, position){
+    this.gold = gold
+    this.position = position
+}
 
 export default class Layout extends React.Component {
         constructor() {
@@ -30,7 +34,9 @@ export default class Layout extends React.Component {
                     gold: 0
                 },
                 map: [[]],
-                darkness: false
+                darkness: false,
+                treasures: []
+
 
 
             }
@@ -60,6 +66,16 @@ export default class Layout extends React.Component {
             player.position = playerPos
 
             //rest of the dungeon setup
+            let treasures = []
+            let i = 0
+            while(i < 10){
+                let newPos = this.findFreeTile(map)
+                let treasure = new Treasure(5, newPos)
+                treasures.push( treasure )
+                this.setTile(map, newPos, 'treasure')
+                i++
+            }
+            console.log(treasures)
 
             this.setState({ map })
             this.setState({ player })
@@ -76,10 +92,14 @@ export default class Layout extends React.Component {
 
             let pos = newPos()
 
-            while (map[pos[1]][pos[0]] === 'wall') {
+            while (map[pos[1]][pos[0]] !== 'room') {
                 pos = newPos()
               }
             return pos
+        }
+
+        setTile(map, position, type){
+            map[position[1]][position[0]] = type
         }
 
         move(e) {
@@ -93,8 +113,14 @@ export default class Layout extends React.Component {
             if (key === 37) newPos = [playerPos[0] - 1, playerPos[1]]
             if (key === 39) newPos = [playerPos[0] + 1, playerPos[1]]
 
-            if (this.state.map[newPos[1]][newPos[0]] !== 'room') {
-                return
+            let nextTile = this.state.map[newPos[1]][newPos[0]]
+            
+            switch(nextTile){
+                case 'treasure':
+                    break
+                case 'wall':
+                    return
+                default:
             }
 
             player.position = newPos
