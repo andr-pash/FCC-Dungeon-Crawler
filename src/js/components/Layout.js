@@ -5,6 +5,7 @@ import { generateArray, addRooms, createRooms, intRange } from '../mapgenerator.
 //console.log(inventory)
 
 function Treasure(gold, position){
+    this.type = 'treasure'
     this.gold = gold
     this.position = position
 }
@@ -25,7 +26,11 @@ export default class Layout extends React.Component {
                 player: {
                     position: [],
                     health: 100,
-                    weapon: 'stick',
+                    weapon: { 
+                        type: 'Bare Hands',
+                        damage: 2,
+                        chance: .5
+                     },
                     xp: 0,
                     level: 1,
                     sight: 5,
@@ -34,8 +39,7 @@ export default class Layout extends React.Component {
                     gold: 0
                 },
                 map: [[]],
-                darkness: false,
-                treasures: []
+                darkness: false
 
 
 
@@ -72,7 +76,7 @@ export default class Layout extends React.Component {
                 let newPos = this.findFreeTile(map)
                 let treasure = new Treasure(5, newPos)
                 treasures.push( treasure )
-                this.setTile(map, newPos, 'treasure')
+                this.setTile(map, newPos, treasure)
                 i++
             }
             console.log(treasures)
@@ -92,7 +96,7 @@ export default class Layout extends React.Component {
 
             let pos = newPos()
 
-            while (map[pos[1]][pos[0]] !== 'room') {
+            while (map[pos[1]][pos[0]].type !== 'room') {
                 pos = newPos()
               }
             return pos
@@ -115,9 +119,18 @@ export default class Layout extends React.Component {
 
             let nextTile = this.state.map[newPos[1]][newPos[0]]
             
-            switch(nextTile){
+            switch(nextTile.type){
                 case 'treasure':
+                    player.gold += nextTile.gold 
+                    this.setTile(this.state.map, newPos, { type: 'room' })
                     break
+
+                case 'weapon':
+                    player.weapon = nextTile
+                    console.log(player.weapon)
+                    this.setTile(this.state.map, newPos, { type: 'room' })
+                    break
+
                 case 'wall':
                     return
                 default:

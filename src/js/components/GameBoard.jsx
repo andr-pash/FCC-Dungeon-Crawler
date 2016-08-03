@@ -55,7 +55,7 @@ class GameBoard extends React.Component {
 		}	
 		
 
-		gameMap[plPos[1]][plPos[0]] = 'player'
+		gameMap[plPos[1]][plPos[0]] = { type: 'player' }
 
 		let cellsRows = gameMap.slice(startRow, endRow)
 						.map( el => el.slice(startCol, endCol))

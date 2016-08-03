@@ -23,21 +23,25 @@ const boss = {
 
 // WEAPONS
 const sword = {
+    type: 'Sword',
     damage: 8,
     chance: .65
 }
 
 const dagger = {
+    type: 'Dagger',
     damage: 6,
     chance: .75
 }
 
 const stick = {
+    type: 'Stick',
     damage: 3,
     chance: .5
 }
 
 const smallAxe = {
+    type: 'Small Axe'
     damage: 7,
     chance: .65
 }

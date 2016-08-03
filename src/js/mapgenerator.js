@@ -90,20 +90,20 @@ function createRooms(map, mapSizeCol, mapSizeRow) {
         if (fitsMap) {
 
             // top left corner
-            let tl = map[newRoom.y][newRoom.x] === 'wall'
+            let tl = map[newRoom.y][newRoom.x].type === 'wall'
                 // top right corner
-            let tr = map[newRoom.y][newRoom.x + newRoom.width] === 'wall'
+            let tr = map[newRoom.y][newRoom.x + newRoom.width].type === 'wall'
                 // bottom right corner
-            let br = map[newRoom.y + newRoom.height][newRoom.x + newRoom.width] === 'wall'
+            let br = map[newRoom.y + newRoom.height][newRoom.x + newRoom.width].type === 'wall'
                 // bottom left corner
-            let bl = map[newRoom.y + newRoom.height][newRoom.x] === 'wall'
+            let bl = map[newRoom.y + newRoom.height][newRoom.x].type === 'wall'
 
 
             // if rooms are desired to be more separated - maybe room size needs to be reduced then 
-            let tl1 = map[newRoom.y - 1][newRoom.x - 1] === 'wall'
-            let tr1 = map[newRoom.y - 1][newRoom.x + newRoom.width + 1] === 'wall'
-            let br1 = map[newRoom.y + newRoom.height + 1][newRoom.x + newRoom.width + 1] === 'wall'
-            let bl1 = map[newRoom.y + newRoom.height + 1][newRoom.x - 1] === 'wall'
+            let tl1 = map[newRoom.y - 1][newRoom.x - 1].type === 'wall'
+            let tr1 = map[newRoom.y - 1][newRoom.x + newRoom.width + 1].type === 'wall'
+            let br1 = map[newRoom.y + newRoom.height + 1][newRoom.x + newRoom.width + 1].type === 'wall'
+            let bl1 = map[newRoom.y + newRoom.height + 1][newRoom.x - 1].type === 'wall'
 
 
             let noOverlap = tl && tr && br && bl
@@ -138,7 +138,7 @@ function addRooms(map, room) {
             let inYRange = row >= room.y && row <= room.y + room.height
 
             if (inXRange && inYRange) {
-                newEl = 'room'
+                newEl = { type: 'room'}
             }
 
             return newEl
@@ -161,7 +161,7 @@ function generateArray(x, y) {
         let i = 0
 
         while (i < x) {
-            innerArr.push('wall')
+            innerArr.push({ type: 'wall'})
             i++
         }
         outerArr.push(innerArr)
