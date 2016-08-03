@@ -15,19 +15,25 @@ class GameBoard extends React.Component {
 		
 		let player = this.props.player
 		let sight = this.props.player.sight
+		let darkness = this.props.dark
 		let plPos = player.position
 		let vPort = this.props.viewport
 		let gameMap = this.props.gameMap
 
 			// let's call it fog of war 
             .map( (outerEl, outerInd) => outerEl.map( (innerEl, innerInd) => {
-              let newEl = innerEl;
-              let a = Math.abs(plPos[0] - innerInd)
-              let b = Math.abs(plPos[1] - outerInd)
-              if(euclidDistance(a, b) > sight){
-                newEl = innerEl + ' darken'
-              }
-              return newEl
+
+				let newEl = innerEl
+
+				if(darkness === true){	
+					let a = Math.abs(plPos[0] - innerInd)
+					let b = Math.abs(plPos[1] - outerInd)
+					if(euclidDistance(a, b) > sight){
+					newEl = innerEl + ' darken'
+					}
+				}
+				
+				return newEl
             }))
 
 		// let gameMap = _.cloneDeep(this.props.gameMap)
