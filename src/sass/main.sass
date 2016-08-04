@@ -56,6 +56,9 @@
 	background: black
 
 
+.header
+	padding: 40px
+
 .banner-container
 	background: red
 	position: absolute
@@ -132,7 +135,7 @@
 
 
 
-.gameover-modal
+.game-modal
 	position: fixed
 	top: 0
 	left: 0
@@ -141,7 +144,15 @@
 	background: rgba(0,0,0,0.7)
 	z-index: 1000
 
-.gameover-modal__inner
+.game-modal.start	
+	background: rgba(0,0,0,0.7)
+.game-modal.gameover	
+	background: rgba(0,0,0,0.7)
+.game-modal.victory	
+	background: rgba(0,0,0,0.7)
+
+
+.game-modal__inner
 	position: fixed
 	padding: 40px
 	border-radius: 25px
@@ -150,8 +161,6 @@
 	width: 500px
 	height: 400px
 	transform: translateX(-50%)
-	background: #990106
-	box-shadow: 0 0 0px 30px rgba(#D26B70, 0.5), 0 0 0px 50px rgba(#D26B70, 0.2)
 	color: white
 	text-transform: 'uppercase'
 	text-align: center
@@ -160,7 +169,19 @@
 	h2
 		font-size: 52px
 
-.btn-retry
+.game-modal__inner.start
+	background: #A7007C
+	box-shadow: 0 0 0px 30px rgba(#A7007C, 0.5), 0 0 0px 50px rgba(#A7007C, 0.2)
+
+.game-modal__inner.gameover
+	background: #990106
+	box-shadow: 0 0 0px 30px rgba(#D26B70, 0.5), 0 0 0px 50px rgba(#D26B70, 0.2)	
+
+.game-modal__inner.victory
+	background: #009937
+	box-shadow: 0 0 0px 30px rgba(#009937, 0.5), 0 0 0px 50px rgba(#009937, 0.2)
+
+.btn
 	width: 160px
 	height: 70px
 	text-align: center
@@ -171,6 +192,12 @@
 	border-radius: 15px
 	margin-top: 70px
 	box-shadow: 0 0 15px rgba(#fff, 0.7)
+
+.btn.start
+
+.btn.gameover
+
+.btn.victory	
 
 .slideDown-appear,
 .slideDown-enter

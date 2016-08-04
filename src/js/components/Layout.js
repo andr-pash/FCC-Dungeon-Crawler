@@ -43,6 +43,7 @@ export default class Layout extends React.Component {
         this.init = this.init.bind(this)
         this.move = this.move.bind(this)
         this.setBannerMsg = this.setBannerMsg.bind(this)
+        this.startGame = this.startGame.bind(this)
 
     }
 
@@ -66,11 +67,12 @@ export default class Layout extends React.Component {
         let playerPos = mapGen.playerPos
         player.position = playerPos
 
-        console.log('init!')
-        this.setState({ map,  player, gameStatus: 'start', currentEnemy: {} })
-        // this.setState({ player })
-        // this.setState({ gameOver: false })
 
+        this.setState({ map,  player, gameStatus: 'start', currentEnemy: {} })
+    }
+
+    startGame(){
+        this.setState({ gameStatus: 'running' })
     }
 
     setTile(map, position, type){
@@ -210,9 +212,11 @@ export default class Layout extends React.Component {
 
     render() {
 
+        let btns = []
+
         return ( 
             <div className="app-shell">
-                <h1>FCC Roguelike Dungeon Crawler</h1>
+                <h1 className="header">FCC Roguelike Dungeon Crawler</h1>
                 <GameBoard 
                   gameMap={ this.state.map }
                   player={ this.state.player }
@@ -223,9 +227,29 @@ export default class Layout extends React.Component {
                 >  
                 </GameBoard>
 
+
                 <Modal 
-                    gameStatus={this.state.gameStatus}
-                    retry={this.init}
+                    switch={ this.state.gameStatus === 'start' }
+                    btns={ [["Let's Go!", this.startGame]] }
+                    text={ 'Only the brave will persevere!' }
+                    modifier={ 'start' }
+                    key={ 'start' }
+                />
+
+                <Modal 
+                    switch={this.state.gameStatus === 'lost'}
+                    btns={[['Retry!', this.init]]}
+                    text={'You Lose!'}
+                    modifier={'gameover'}
+                    key={'gameover'}
+                />
+
+                <Modal 
+                    switch={this.state.gameStatus === 'victory'}
+                    btns={ [['Once More!', this.init]]}
+                    text={ 'Unbelievable! You saved the day. No... THE UNIVERSE!' }
+                    modifier={ 'victory' }
+                    key={ 'victory' }
                 />
 
             </div>

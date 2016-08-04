@@ -3,23 +3,35 @@ import ReactCSSTransitionGroup from "react-addons-css-transition-group"
 
 export default class Modal extends React.Component {
 
-	constructor(props){
-		super(props)
-		this.state = {modal: []}
+	createModal(text, btns, modifier){ // string 2d-array --> [[text, function]] string
+		
+		return (
+			<div className={`game-modal ${modifier}`}>
+				<div className={`game-modal__inner ${modifier}`}>
+					<h2>{text}</h2>
+
+					{btns.map( (el, i) => {
+						return (
+							<div 
+								className={`btn ${modifier}`} 
+								onClick={ el[1] }
+								key={i}>
+								{ el[0] }
+							</div>
+						)
+					})}				
+				</div>
+			</div>
+			)
 	}
 
 	render(){
 		let modal = []
-		if(this.props.gameStatus === 'lost'){
-			modal = [
-				<div className={'gameover-modal'} key={1}>
-					<div className="gameover-modal__inner">
-						<h2>You Loose!</h2>
-						<div className="btn btn-retry" onClick={this.props.retry}>Retry!</div>
-					</div>
-				</div>
-			]
+
+		if(this.props.switch){
+			modal = this.createModal( this.props.text, this.props.btns, this.props.modifier)
 		}
+
 
 		return(
         	<ReactCSSTransitionGroup
