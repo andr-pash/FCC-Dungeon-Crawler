@@ -1,4 +1,9 @@
 
+body
+	height: 100vh
+	background: linear-gradient(180deg, #C0B087 0, rgba(53,53,53,1) 100%)
+	margin: 0
+
 
 .gameboard
 	background: grey
@@ -6,47 +11,71 @@
 
 .cell
 	display:block
-	height: 24px
-	width: 24px
+	height: 30px
+	width: 30px
+
+
+.wall
 	background:
-		image: url('../img/walls.png')
+		image: url('../img/space-wall.png')
 		size: cover
+	box-shadow: 0px -8px 10px rgba(0,0,0,0.5)
 
 .player
-	background:
-		image: url('../img/player.png')
-		size: cover
 	z-index: 500
+
+
+.player.up
+	background:
+		image: url('../img/space-player-back.png')
+		size: cover
+
+.player.down
+	background:
+		image: url('../img/space-player-front.png')
+		size: cover
+
+.player.left
+	background:
+		image: url('../img/space-player-side-left.png')
+		size: cover
+
+.player.right	
+	background:
+		image: url('../img/space-player-side-right.png')
+		size: cover
+
 
 .room
 	background:
-		image: url('../img/floor.png')
-		size: cover
+		image: url('../img/space-floor.png')
+		size: contain
+	box-shadow: none
 
 .treasure
 	background:
-		image: url('../img/treasure.png')
+		image: url('../img/space-treasure.png')
 		size: cover
 
 .monster
 	background:
-		image: url('../img/monster.png')
+		image: url('../img/space-monster.png')
 		size: cover
 
 .weapon
 	background:
-		image: url('../img/sword.png')
+		image: url('../img/space-weapon.png')
 		size: cover
 
 .potion
 	background:
-		image: url('../img/potion.png')
+		image: url('../img/space-potion.png')
 		size: cover
 
 
 .torch
 	background:
-		image: url('../img/torch.png')
+		image: url('../img/space-torch.png')
 		size: cover
 
 .boss
@@ -57,7 +86,14 @@
 
 
 .header
-	padding: 40px
+	padding: 50px
+	margin: 35px auto -20px auto
+	color: white
+	font-weight: 500
+	width: 50%
+	border-radius: 20px 20px 0 0
+	box-shadow: 0 0 15px #000
+	background: #565455
 
 .banner-container
 	background: red
@@ -106,6 +142,9 @@
 	position: relative
 	overflow: hidden
 	display: inline-block
+	border-radius: 20px
+	box-shadow: 0 0 5px 25px rgba(#3D9599, 0.8)
+	margin-bottom: 30px
 
 .game-display
 	position: absolute
@@ -113,10 +152,11 @@
 	color: white
 	top: 0
 	left: 0
+	bottom: 0
 	// background: rgba(0,0,0,0.6)
-	background: linear-gradient(270deg, rgba(0,0,0,0) 0, rgba(#D26B70, 0.3) 100%)
+	background: linear-gradient(270deg, rgba(0,0,0,0) 0, rgba(#3D9599, 0.3) 100%)
 	// background: rgba(#D26B70, 0.3)
-	border-radius: 0 0 15px 0
+	border-radius: 20px 0 15px 0
 	opacity: 0.8
 	text-align: left
 
@@ -145,7 +185,7 @@
 	z-index: 1000
 
 .game-modal.start	
-	background: rgba(0,0,0,0.7)
+	background: darken(rgba(#A7007C, 0.7), 25%)
 .game-modal.gameover	
 	background: rgba(0,0,0,0.7)
 .game-modal.victory	

@@ -20,8 +20,8 @@ export default class Layout extends React.Component {
 
         this.state = {
             viewport: {
-                rows: 25,
-                columns: 50
+                rows: 20,
+                columns: 40
             },
             mapSize: {
                 rows: 100,
@@ -31,12 +31,8 @@ export default class Layout extends React.Component {
             map: [[]],
             darkness: true,
             currentEnemy: {},
-            gameStatus: 'start', // running lost won
-
+            gameStatus: 'start', // running gameover victory start
             bannerMsg: ''
-
-
-
         }
 
         this.handleMovement = this.handleMovement.bind(this)
@@ -110,10 +106,22 @@ export default class Layout extends React.Component {
         let player = this.state.player
         let playerPos = player.position
         let newPos = []
-        if (key === 38) newPos = [playerPos[0], playerPos[1] - 1]
-        if (key === 40) newPos = [playerPos[0], playerPos[1] + 1]
-        if (key === 37) newPos = [playerPos[0] - 1, playerPos[1]]
-        if (key === 39) newPos = [playerPos[0] + 1, playerPos[1]]
+        if (key === 38) { 
+            newPos = [playerPos[0], playerPos[1] - 1]
+            player.direction = 'up'
+            }
+        if (key === 40) { 
+            newPos = [playerPos[0], playerPos[1] + 1]
+            player.direction = 'down'
+            }
+        if (key === 37) { 
+            newPos = [playerPos[0] - 1, playerPos[1]]
+            player.direction = 'left'
+            }
+        if (key === 39) { 
+            newPos = [playerPos[0] + 1, playerPos[1]]
+            player.direction = 'right'
+            }
 
         let nextTile = this.state.map[newPos[1]][newPos[0]]
         

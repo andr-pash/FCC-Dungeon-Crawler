@@ -57,6 +57,7 @@ function Torch(name, sight){
 
 function Player() {
     this.position = []
+    this.direction = 'down'
     this.health = 100
     this.weapon = {
         type: 'Bare Hands',

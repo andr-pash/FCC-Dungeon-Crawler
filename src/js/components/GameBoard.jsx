@@ -59,7 +59,7 @@ class GameBoard extends React.Component {
 		}	
 		
 
-		gameMap[plPos[1]][plPos[0]] = { type: 'player' }
+		gameMap[plPos[1]][plPos[0]] = { type: 'player', direction: player.direction }
 
 		let cellsRows = gameMap.slice(startRow, endRow)
 						.map( el => el.slice(startCol, endCol))
@@ -99,7 +99,7 @@ class GameBoard extends React.Component {
 
 		return(
 				<div className="gameboard-container">
-					
+
 					<Banner message={this.props.bannerMsg}/>
 
 					<table className="gameboard">
