@@ -14,12 +14,30 @@ function Monster(strength){
     this.type = 'monster'
     this.health = 100
     this.damage = 5
+    this.xp = 20
 
     this.attack = function(target){
         target.health = target.health - this.damage
         return target
     }
 }
+
+function Potion(strength = 15){
+    this.type = 'potion'
+    this.strength = strength
+}
+
+function Boss(){
+    this.type = 'boss'
+    this.health = 500
+    this.damage = 20
+    this.attack = function(target){
+        target.health = target.health - this.damage
+        return target
+    }
+}
+
+
 
 class MapGenerator {
 
@@ -39,9 +57,11 @@ class MapGenerator {
         // type needs to be passed as anonymous function, so object is instantiated multiple times
         this.fillRooms( () => new Treasure(5), .3)
         this.fillRooms( () => new Monster(), .8)
-
+        this.fillRooms( () => new Potion(), .5)
+        this.fillSpecificRoom( () => new Boss(), this.rooms.length - 1 )
         
     }
+
 
     // use to place stuff that should be in every room, chance optional chance
     fillRooms(type, prob = 1){
@@ -55,8 +75,14 @@ class MapGenerator {
         })
     }
 
-    // use for stuff that's supposed to only appear a few times on the map, e.g. weapons
-    fillMap(){}
+
+    fillSpecificRoom(type, roomNumber){
+
+        let room = this.rooms[roomNumber]
+        let pos = this.findFreeTile(room)
+        this.setTile(pos, type())
+
+    }
 
 
     // can find free tile on map, if room specified, then restricted to room 
