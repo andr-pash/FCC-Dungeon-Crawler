@@ -3,6 +3,7 @@ import GameBoard from "./GameBoard.jsx"
 import Display from "./Display.jsx"
 import Modal from "./Modal.jsx"
 import MapGen from "../mapGenClass.js"
+import { Player } from "../dungeonstuff.js"
 // import { generateArray, addRooms, createRooms, intRange } from '../mapgenerator.js'
 //import inventory from '../dungeonstuff.js'
 //console.log(inventory)
@@ -11,29 +12,7 @@ function intRange(a, b) {
         return Math.floor(Math.random() * ((b + 1) - a)) + a
     }
 
-function Player() {
-    this.position = []
-    this.health = 100
-    this.weapon = {
-        type: 'Bare Hands',
-        damage: 2,
-        chance: .5
-    }
-    this.xp = 0
-    this.level = 1
-    this.sight = 5
-    this.strength = 5
-    this.armor = 0
-    this.gold = 0
-    this.lives = 0
-    this.attack = function(target){
-        let damage = this.weapon.damage * this.strength * this.level
-        let chance = Math.round((Math.random() * this.weapon.chance) * damage)
-        let totalDamage = damage - chance
-        target.health = target.health - totalDamage
-        return target
-    }
-}
+
 export default class Layout extends React.Component {
     constructor() {
         super();

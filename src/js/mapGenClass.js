@@ -1,57 +1,9 @@
 
-
+import { Monster, Torch, Weapon, Boss, Potion, Treasure} from './dungeonstuff.js'
 
 // MAP GENERATOR - tweak numbers in switch to get interesting results
 // TODO: allow for options to be passed for number of monsters etc
 
-
-function Treasure(gold){
-    this.type = 'treasure'
-    this.gold = gold
-}
-
-function Monster(level = 1){
-    this.type = 'monster'
-    this.level = level
-    this.health = 100 * (level + .5)
-    this.damage = 5 * level
-    this.xp = 20 * level
-
-    this.attack = function(target){
-        target.health = target.health - this.damage
-        return target
-    }
-}
-
-function Potion(strength = 15){
-    this.type = 'potion'
-    this.strength = strength
-}
-
-function Boss(){
-    this.type = 'boss'
-    this.health = 1000
-    this.damage = 20
-    this.xp = 150
-    this.attack = function(target){
-        target.health = target.health - this.damage
-        return target
-    }
-}
-
-function Weapon(name, damage, chance){
-    this.type = 'weapon'
-    this.name = name
-    this.damage = damage
-    this.chance = chance
-}
-
-
-function Torch(name, sight){
-    this.type = 'torch'
-    this.name = name
-    this.sight = sight
-}
 
 class MapGenerator {
 
