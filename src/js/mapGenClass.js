@@ -7,13 +7,16 @@ import { Monster, Torch, Weapon, Boss, Potion, Treasure} from './dungeonstuff.js
 
 class MapGenerator {
 
-    constructor(x, y){
+    constructor(x, y, options){
 
         this.mapSizeX = x
         this.mapSizeY = y
         this.gameMap = []
         this.playerPos = []
         this.rooms = []
+        this.minRoomSize =  3 
+        this.maxRoomSize = 12
+        this.numRooms = 45
     }
 
     createMap(){
@@ -25,10 +28,10 @@ class MapGenerator {
         this.fillRooms( () => new Monster(), .6 )
         this.fillRooms( () => new Monster(2), .1 )
         this.fillRooms( () => new Potion(), .5 )
-        this.fillSpecificRoom( () => new Weapon('Stick', 3, .5), 4)
-        this.fillSpecificRoom( () => new Weapon('Dagger', 6, .4), 10)
-        this.fillSpecificRoom( () => new Weapon('Small Axe', 7, .35), 15)
-        this.fillSpecificRoom( () => new Weapon('Sword', 8, .2), 25)
+        this.fillSpecificRoom( () => new Weapon('Stick', 3, .5, 1), 4)
+        this.fillSpecificRoom( () => new Weapon('Dagger', 6, .4, 2), 10)
+        this.fillSpecificRoom( () => new Weapon('Small Axe', 7, .35, 3), 15)
+        this.fillSpecificRoom( () => new Weapon('Sword', 8, .2, 4), 25)
         this.fillSpecificRoom( () => new Torch('Small Torch', 6), 3)
         this.fillSpecificRoom( () => new Torch('Medium Torch', 8), 15)
         this.fillSpecificRoom( () => new Torch('Giant Torch', 12), 20)
@@ -101,7 +104,7 @@ class MapGenerator {
         let map = []
         let roomArr = []
         let sides = ['top', 'right', 'bottom', 'left']
-        let roomNum = 35 // number total rooms - 50 seems good - 60 doesn't work any more
+        let roomNum = this.numRooms // number total rooms - 50 seems good - 60 doesn't work any more
         let startSides = 14 //
         let startX = this.mapSizeX / 2 - startSides / 2
         let startY = this.mapSizeY / 2 - startSides / 2
@@ -128,8 +131,8 @@ class MapGenerator {
             }
 
             let x, y, corrX, corrY, range1, range2, width, height
-            width = this.intRange(3, 20)
-            height = this.intRange(3, 15)
+            width = this.intRange(this.minRoomSize, this.maxRoomSize)
+            height = this.intRange(this.minRoomSize, this.maxRoomSize)
 
 
             switch (side) {

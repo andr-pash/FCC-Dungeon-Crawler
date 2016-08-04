@@ -131,12 +131,19 @@ export default class Layout extends React.Component {
                 break
 
             case 'weapon':
-                player.weapon = nextTile
+            
+                if(player.level < nextTile.reqLevel) break
+
+                if(nextTile.damage > player.weapon.damage){
+                    player.weapon = nextTile
+                }   
                 this.setTile(this.state.map, newPos, { type: 'room' })
                 break
 
             case 'torch':
-                player.sight = nextTile.sight
+                if(nextTile.sight > player.sight){
+                    player.sight = nextTile.sight
+                }
                 this.setTile(this.state.map, newPos, { type: 'room' })
                 break
 
@@ -166,9 +173,11 @@ export default class Layout extends React.Component {
 
 
             case 'potion':
-                player.health += nextTile.strength
-                if(player.health > 100) player.health = 100
-                this.setTile(this.state.map, newPos, { type: 'room' })
+                if(player.health < 100){
+                    player.health += nextTile.strength
+                    if(player.health > 100) player.health = 100
+                    this.setTile(this.state.map, newPos, { type: 'room' })
+                }
                 break
 
             case 'wall':

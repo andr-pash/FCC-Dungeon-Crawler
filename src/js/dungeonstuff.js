@@ -32,11 +32,12 @@ function Boss(){
     }
 }
 
-function Weapon(name, damage, chance){
+function Weapon(name, damage, chance, reqLevel){
     this.type = 'weapon'
     this.name = name
     this.damage = damage
     this.chance = chance
+    this.reqLevel = reqLevel
 }
 
 
