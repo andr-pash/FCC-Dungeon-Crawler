@@ -2,6 +2,24 @@
 
 
 // MAP GENERATOR - tweak numbers in switch to get interesting results
+// TODO: allow for options to be passed for number of monsters etc
+
+
+function Treasure(gold){
+    this.type = 'treasure'
+    this.gold = gold
+}
+
+function Monster(strength){
+    this.type = 'monster'
+    this.health = 100
+    this.damage = 5
+
+    this.attack = function(target){
+        target.health = target.health - this.damage
+        return target
+    }
+}
 
 class MapGenerator {
 
@@ -10,13 +28,66 @@ class MapGenerator {
         this.mapSizeX = x
         this.mapSizeY = y
         this.gameMap = []
+        this.playerPos = []
+        this.rooms = []
     }
 
     createMap(){
         this.generateArray()
         this.createRooms()
+
+        // type needs to be passed as anonymous function, so object is instantiated multiple times
+        this.fillRooms( () => new Treasure(5), .3)
+        this.fillRooms( () => new Monster(), .8)
+
         
     }
+
+    // use to place stuff that should be in every room, chance optional chance
+    fillRooms(type, prob = 1){
+
+        this.rooms.map( el => {
+
+            if(Math.random() < prob){
+                let pos = this.findFreeTile(el)
+                this.setTile(pos, type())
+            }
+        })
+    }
+
+    // use for stuff that's supposed to only appear a few times on the map, e.g. weapons
+    fillMap(){}
+
+
+    // can find free tile on map, if room specified, then restricted to room 
+    findFreeTile(room) {
+
+        let xRange = [1, this.mapSizeX - 1]
+        let yRange = [1, this.mapSizeY - 1]
+
+        if( room ){
+            xRange = [room.x, room.x + room.width]
+            yRange = [room.y, room.y + room.height]
+        }
+
+        let newPos = () => {
+            let x = this.intRange(xRange[0], xRange[1])
+            let y = this.intRange(yRange[0], yRange[1])
+            return [x, y]
+        }
+
+        let pos = newPos()
+
+        while (this.gameMap[pos[1]][pos[0]].type !== 'room') {
+            pos = newPos()
+          }
+        return pos
+    }
+
+    setTile(position, type){
+        this.gameMap[position[1]][position[0]] = type
+    }
+
 
     createRooms() {
 
@@ -35,9 +106,7 @@ class MapGenerator {
 
         let seedRoom = Room(startSides, startSides, startX, startY)
         roomArr.push(seedRoom)
-        console.log(seedRoom)
         this.addRooms(seedRoom)
-        console.log('map seedroom', map)
 
 
         let runCounter = 0
@@ -143,7 +212,7 @@ class MapGenerator {
 
             runCounter += 1
         }
-        console.log(this.gameMap)
+        this.rooms = roomArr
     }
 
 
@@ -170,7 +239,6 @@ class MapGenerator {
 
 
     // builds the array the map is carved out of
-    // TODO: rewrite as binary arr, just because
     generateArray() {
 
         let j = 0
@@ -187,7 +255,6 @@ class MapGenerator {
             outerArr.push(innerArr)
             j++
         }
-        console.log(outerArr)
         this.gameMap = outerArr
     }
 

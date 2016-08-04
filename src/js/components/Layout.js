@@ -5,11 +5,31 @@ import MapGen from "../mapGenClass.js"
 //import inventory from '../dungeonstuff.js'
 //console.log(inventory)
 
-function Treasure(gold, position){
-    this.type = 'treasure'
-    this.gold = gold
-    this.position = position
+function Player() {
+    this.position = []
+    this.health = 100
+    this.weapon = {
+        type: 'Bare Hands',
+        damage: 2,
+        chance: .5
+    }
+    this.xp = 0
+    this.level = 1
+    this.sight = 5
+    this.strength = 5
+    this.armor = 0
+    this.gold = 0
+    this.attack = function(target){
+        let totalDamage = this.weapon.damage * this.strength
+
+        if(Math.random > 0.5) totalDamage = 0
+
+        console.log('damage', totalDamage)
+        target.health = target.health - totalDamage
+        return target
+    }
 }
+
 function intRange(a, b) {
         return Math.floor(Math.random() * ((b + 1) - a)) + a
     }
@@ -26,21 +46,7 @@ export default class Layout extends React.Component {
                     rows: 100,
                     columns: 100,
                 },
-                player: {
-                    position: [],
-                    health: 100,
-                    weapon: { 
-                        type: 'Bare Hands',
-                        damage: 2,
-                        chance: .5
-                     },
-                    xp: 0,
-                    level: 1,
-                    sight: 5,
-                    strength: 5,
-                    armor: 0,
-                    gold: 0
-                },
+                player: new Player(),
                 map: [[]],
                 darkness: false
 
@@ -66,10 +72,9 @@ export default class Layout extends React.Component {
         init() {
             let mapGen = new MapGen(this.state.mapSize.columns, this.state.mapSize.rows)
             mapGen.createMap()
-            console.log(mapGen)
             let map = mapGen.gameMap
 
-            
+
 
             //player setup
             let player = this.state.player
@@ -123,9 +128,20 @@ export default class Layout extends React.Component {
 
                 case 'weapon':
                     player.weapon = nextTile
-                    console.log(player.weapon)
                     this.setTile(this.state.map, newPos, { type: 'room' })
                     break
+
+                case 'monster':
+                    let monster = nextTile
+                    monster = player.attack(monster)
+                    player = monster.attack(player)
+                    console.log('player', player.health)
+                    console.log('monster', monster.health)
+                    if(monster.health <= 0){
+                        this.setTile(this.state.map, newPos, { type: 'room' })    
+                        break
+                    }
+                    return
 
                 case 'wall':
                     return
