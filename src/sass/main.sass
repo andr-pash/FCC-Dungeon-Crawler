@@ -6,8 +6,8 @@
 
 .cell
 	display:block
-	height: 25px
-	width: 25px
+	height: 24px
+	width: 24px
 	background:
 		image: url('../img/walls.png')
 		size: cover
@@ -55,14 +55,82 @@
 .darken
 	background: black
 
+
+.banner-container
+	background: red
+	position: absolute
+	top: 0
+	left: 50%
+	width: 50%
+	height: 50px
+	color: white
+	text-align: center
+	font-size: 20px
+	border-radius: 0px 0px 20px 20px
+	box-shadow: 0 0 30px #D26B70
+	transform: translate3d(-50%, 0px, 0)	
+	opacity: 0.8
+	z-index: 1000
+
+
+.bannerAnimation-appear,
+.bannerAnimation-enter
+	opacity: 0.01
+	border-radius: 0px 0px 40px 40px
+	transform: translate3d(-50%, -50px, 0)
+
+
+.bannerAnimation-appear.bannerAnimation-appear-active,
+.bannerAnimation-enter.bannerAnimation-enter-active
+	opacity: 0.8
+	transform: translate3d(-50%, 0px, 0)
+	border-radius: 0px 0px 20px 20px
+	transition: all 300ms ease-in-out
+
+.bannerAnimation-leave
+	opacity: 0.8
+	transform: translate3d(-50%, 0px, 0)
+
+.bannerAnimation-leave.bannerAnimation-leave-active
+	opacity: 0.01
+	transform: translate3d(-50%, -50px, 0)
+	transition: all 600ms ease-in-out	
+
+.app-shell
+	text-align: center
+
 .gameboard-container
 	position: relative
+	overflow: hidden
+	display: inline-block
 
 .game-display
 	position: absolute
+	padding: 20px
 	color: white
-	top: 25px
-	left: 25px
+	top: 0
+	left: 0
+	// background: rgba(0,0,0,0.6)
+	background: linear-gradient(270deg, rgba(0,0,0,0) 0, rgba(#D26B70, 0.3) 100%)
+	// background: rgba(#D26B70, 0.3)
+	border-radius: 0 0 15px 0
+	opacity: 0.8
+	text-align: left
+
+.display,
+.disp-cell
+	text-align: left
+
+.display h3
+	&:after
+		content: ''
+		display: block
+		height: 1px
+		background: linear-gradient(270deg, rgba(0,0,0,0) 0, rgba(255,255,255,1) 100%)
+		width: 100%	
+
+
+
 
 .gameover-modal
 	position: fixed
@@ -72,24 +140,59 @@
 	right: 0
 	background: rgba(0,0,0,0.7)
 	z-index: 1000
-	opacity: 1
-	transition: all 0.5s ease-in-out
-
 
 .gameover-modal__inner
 	position: fixed
+	padding: 40px
+	border-radius: 25px
 	top: 20%
 	left: 50%
 	width: 500px
 	height: 400px
 	transform: translateX(-50%)
-	background: red
+	background: #990106
+	box-shadow: 0 0 0px 30px rgba(#D26B70, 0.5), 0 0 0px 50px rgba(#D26B70, 0.2)
 	color: white
 	text-transform: 'uppercase'
+	text-align: center
 	font-size: 3em
 	z-index: 1050
+	h2
+		font-size: 52px
 
-.hidden
-	display: none
-	opacity: 0
+.btn-retry
+	width: 160px
+	height: 70px
+	text-align: center
+	font-size: 36px
+	border: solid 2px white	
+	color: white
+	line-height: 36px
+	border-radius: 15px
+	margin-top: 70px
+	box-shadow: 0 0 15px rgba(#fff, 0.7)
+
+.slideDown-appear,
+.slideDown-enter
+	transform: translateY(-100px)
+	opacity: 0.01
+
+.slideDown-appear.slideDown-appear-active,
+.slideDown-enter.slideDown-enter-active
+	transform: translateY(0px)
+	opacity: 1
+	transition: all 250ms ease-in-out
+
+.slideDown-leave
+	transform: translateY(0px)
+	opacity: 1
+
+.slideDown-leave.slideDown-leave-active
+	transform: translateY(-100px)
+	opacity: 0.01
+	transition: all 300ms ease-in-out
+
+
+
+
 

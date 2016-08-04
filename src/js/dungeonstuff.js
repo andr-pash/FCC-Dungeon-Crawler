@@ -1,6 +1,10 @@
+function intRange(a, b) {
+        return Math.floor(Math.random() * ((b + 1) - a)) + a
+    }
+
 function Treasure(gold){
     this.type = 'treasure'
-    this.gold = gold
+    this.gold = intRange(gold, gold*2)
 }
 
 function Monster(level = 1){
@@ -9,9 +13,11 @@ function Monster(level = 1){
     this.health = 100 * (level + .5)
     this.damage = 5 * level
     this.xp = 20 * level
+    this.chance = .5
 
     this.attack = function(target){
-        target.health = target.health - this.damage
+        let chance = intRange(0, this.chance*this.damage)
+        target.health = target.health - (this.damage - chance)
         return target
     }
 }
@@ -26,8 +32,10 @@ function Boss(){
     this.health = 1000
     this.damage = 20
     this.xp = 150
+    this.chance = .5
     this.attack = function(target){
-        target.health = target.health - this.damage
+        let chance = intRange(0, this.chance*this.damage)
+        target.health = target.health - (this.damage - chance)
         return target
     }
 }
@@ -64,7 +72,7 @@ function Player() {
     this.lives = 0
     this.attack = function(target){
         let damage = this.weapon.damage * this.strength * this.level
-        let chance = Math.round((Math.random() * this.weapon.chance) * damage)
+        let chance = intRange(0, this.weapon.chance*damage)
         let totalDamage = damage - chance
         target.health = target.health - totalDamage
         return target

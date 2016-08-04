@@ -1,4 +1,5 @@
 import React from "react";
+import ReactCSSTransitionGroup from "react-addons-css-transition-group"
 import GameBoard from "./GameBoard.jsx"
 import Display from "./Display.jsx"
 import Modal from "./Modal.jsx"
@@ -30,7 +31,9 @@ export default class Layout extends React.Component {
             map: [[]],
             darkness: true,
             currentEnemy: {},
-            gameOver: false
+            gameStatus: 'start', // running lost won
+
+            bannerMsg: ''
 
 
 
@@ -39,6 +42,7 @@ export default class Layout extends React.Component {
         this.handleMovement = this.handleMovement.bind(this)
         this.init = this.init.bind(this)
         this.move = this.move.bind(this)
+        this.setBannerMsg = this.setBannerMsg.bind(this)
 
     }
 
@@ -57,39 +61,27 @@ export default class Layout extends React.Component {
         let map = mapGen.gameMap
 
 
-
         //player setup
-        let player = this.state.player
+        let player = new Player()
         let playerPos = mapGen.playerPos
-
         player.position = playerPos
 
+        console.log('init!')
+        this.setState({ map,  player, gameStatus: 'start', currentEnemy: {} })
+        // this.setState({ player })
+        // this.setState({ gameOver: false })
 
-        this.setState({ map })
-        this.setState({ player })
-
-    }
-
-    findFreeTile(map) {
-
-        let newPos = () => {
-            let x = intRange(1, this.state.mapSize.columns - 1)
-            let y = intRange(1, this.state.mapSize.rows - 1)
-            return [x, y]
-        }
-
-        let pos = newPos()
-
-        while (map[pos[1]][pos[0]].type !== 'room') {
-            pos = newPos()
-          }
-        return pos
     }
 
     setTile(map, position, type){
         map[position[1]][position[0]] = type
     }
 
+
+    setBannerMsg(msg){
+        this.setState({ bannerMsg: msg })
+        setTimeout( () => this.setState({ bannerMsg: '' }), 1500)
+    }
 
     checkLevelUp(){
         if(this.state.player.xp >= 100){
@@ -128,6 +120,7 @@ export default class Layout extends React.Component {
                 player.gold += nextTile.gold 
                 if(player.gold % 25 === 0) player.xp += 25
                 this.setTile(this.state.map, newPos, { type: 'room' })
+                this.setBannerMsg('Gold Digger!')
                 break
 
             case 'weapon':
@@ -145,27 +138,35 @@ export default class Layout extends React.Component {
                     player.sight = nextTile.sight
                 }
                 this.setTile(this.state.map, newPos, { type: 'room' })
+                this.setBannerMsg('There shall be light!')
                 break
 
+
             case 'boss':
+
             case 'monster':
                 let monster = nextTile
 
-                monster = player.attack(monster)
-                player = monster.attack(player)
 
+                monster = player.attack(monster)
                 if(monster.health <= 0){
                     player.xp += monster.xp
                     this.checkLevelUp()
                     monster = {}
+                    this.setState({ currentEnemy: monster })
                     this.setTile(this.state.map, newPos, { type: 'room' })    
                     break
                 }
 
+
+                player = monster.attack(player)
                 if(player.health <= 0){
                     player.lives = player.lives - 1
+                    player.health = 100
                     if ( player.lives < 0){
-                        this.setState({ gameOver: true })
+                        player.health = 0
+                        player.lives = 0
+                        this.setState({ gameStatus: 'lost' })
                     }
                 }
                 this.setState({ currentEnemy: monster })
@@ -210,27 +211,23 @@ export default class Layout extends React.Component {
     render() {
 
         return ( 
-            <div>
-
-                <h1>FCC Rogue Dungeon Crawler</h1>
-
-
+            <div className="app-shell">
+                <h1>FCC Roguelike Dungeon Crawler</h1>
                 <GameBoard 
                   gameMap={ this.state.map }
                   player={ this.state.player }
                   viewport={ this.state.viewport } 
                   dark={ this.state.darkness }
                   enemy={ this.state.currentEnemy }
+                  bannerMsg={ this.state.bannerMsg }
                 >  
                 </GameBoard>
 
-
-
-
                 <Modal 
-                    gameover={this.state.gameOver}
+                    gameStatus={this.state.gameStatus}
+                    retry={this.init}
                 />
-                
+
             </div>
         );
     }

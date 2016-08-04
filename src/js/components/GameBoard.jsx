@@ -1,6 +1,7 @@
 import React from 'react'
 import Cell from './Cell.jsx'
 import Display from "./Display.jsx"
+import Banner from './Banner.jsx'
 
 
 const euclidDistance = (a, b) => {
@@ -82,31 +83,41 @@ class GameBoard extends React.Component {
 								)
 						})
 
+		let playerData = [
+				{title: 'Health', value: this.props.player.health},
+				{title: 'XP', value: this.props.player.xp},
+				{title: 'Level', value: this.props.player.level},
+				{title: 'Weapon', value: this.props.player.weapon.name},
+				{title: 'Gold', value: this.props.player.gold},
+				{title: 'Lives', value: this.props.player.lives}
+		]				
 
+		let compData = [
+				{title: 'Health', value: this.props.enemy.health},
+				{title: 'Level', value: this.props.enemy.level}
+		]
 
 		return(
 				<div className="gameboard-container">
 					
+					<Banner message={this.props.bannerMsg}/>
 
 					<table className="gameboard">
 						<tbody>
 							{cellsRows}
 						</tbody>
 					</table>
-					<div className='game-display'>
-					 <Display
-                        title={'Player Stats'}
-                        health={this.props.player.health}
-                        xp={this.props.player.xp}
-                        level={this.props.player.level}
-                        weapon={this.props.player.weapon.name}
-                    />
 
-                    <Display 
-                        title={'Enemy Stats'}
-                        health={this.props.enemy.health}
-                        level={this.props.enemy.level}
-                    />
+					<div className='game-display'>
+						 <Display
+	                        title={'Player Stats'}
+	 						data={playerData}
+	                    />
+
+	                    <Display 
+	                        title={'Enemy Stats'}
+	  						data={compData}
+	                    />
                     </div>
 				</div>					
 			)

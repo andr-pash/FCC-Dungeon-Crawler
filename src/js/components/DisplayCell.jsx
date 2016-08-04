@@ -5,7 +5,7 @@ class DisplayCell extends React.Component{
 	render(){
 		return(
 			<div className="disp-cell">
-				{this.props.name}: {this.props.value}
+				{this.props.title}: {this.props.value}
 			</div>
 			)
 	}
