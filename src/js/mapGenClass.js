@@ -10,11 +10,12 @@ function Treasure(gold){
     this.gold = gold
 }
 
-function Monster(strength){
+function Monster(level = 1){
     this.type = 'monster'
-    this.health = 100
-    this.damage = 5
-    this.xp = 20
+    this.level = level
+    this.health = 100 * (level + .5)
+    this.damage = 5 * level
+    this.xp = 20 * level
 
     this.attack = function(target){
         target.health = target.health - this.damage
@@ -29,15 +30,21 @@ function Potion(strength = 15){
 
 function Boss(){
     this.type = 'boss'
-    this.health = 500
+    this.health = 1000
     this.damage = 20
+    this.xp = 150
     this.attack = function(target){
         target.health = target.health - this.damage
         return target
     }
 }
 
-
+function Weapon(name, damage, chance){
+    this.type = 'weapon'
+    this.name = name
+    this.damage = damage
+    this.chance = chance
+}
 
 class MapGenerator {
 
@@ -55,10 +62,17 @@ class MapGenerator {
         this.createRooms()
 
         // type needs to be passed as anonymous function, so object is instantiated multiple times
-        this.fillRooms( () => new Treasure(5), .3)
-        this.fillRooms( () => new Monster(), .8)
-        this.fillRooms( () => new Potion(), .5)
+        this.fillRooms( () => new Treasure(5), .3 )
+        this.fillRooms( () => new Monster(), .6 )
+        this.fillRooms( () => new Monster(2), .1 )
+        this.fillRooms( () => new Potion(), .5 )
+        this.fillSpecificRoom( () => new Weapon('Stick', 3, .5), 4)
+        this.fillSpecificRoom( () => new Weapon('Dagger', 6, .4), 10)
+        this.fillSpecificRoom( () => new Weapon('Small Axe', 7, .35), 15)
+        this.fillSpecificRoom( () => new Weapon('Sword', 8, .2), 25)
         this.fillSpecificRoom( () => new Boss(), this.rooms.length - 1 )
+        this.playerPos = this.findFreeTile(this.rooms[0])
+
         
     }
 
@@ -76,12 +90,12 @@ class MapGenerator {
     }
 
 
-    fillSpecificRoom(type, roomNumber){
+
+    fillSpecificRoom(type , roomNumber){
 
         let room = this.rooms[roomNumber]
         let pos = this.findFreeTile(room)
         this.setTile(pos, type())
-
     }
 
 

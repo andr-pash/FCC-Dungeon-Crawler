@@ -1,14 +1,19 @@
 import React from "react";
 import GameBoard from "./GameBoard.jsx"
+import Display from "./Display.jsx"
 import Modal from "./Modal.jsx"
 import MapGen from "../mapGenClass.js"
 // import { generateArray, addRooms, createRooms, intRange } from '../mapgenerator.js'
 //import inventory from '../dungeonstuff.js'
 //console.log(inventory)
 
+function intRange(a, b) {
+        return Math.floor(Math.random() * ((b + 1) - a)) + a
+    }
+
 function Player() {
     this.position = []
-    this.health = 5
+    this.health = 100
     this.weapon = {
         type: 'Bare Hands',
         damage: 2,
@@ -22,19 +27,13 @@ function Player() {
     this.gold = 0
     this.lives = 0
     this.attack = function(target){
-
-
-        let totalDamage = this.weapon.damage * this.strength * this.level
-
-        console.log('damage', totalDamage)
+        let damage = this.weapon.damage * this.strength * this.level
+        let chance = Math.round((Math.random() * this.weapon.chance) * damage)
+        let totalDamage = damage - chance
         target.health = target.health - totalDamage
         return target
     }
 }
-
-function intRange(a, b) {
-        return Math.floor(Math.random() * ((b + 1) - a)) + a
-    }
 export default class Layout extends React.Component {
     constructor() {
         super();
@@ -50,7 +49,8 @@ export default class Layout extends React.Component {
             },
             player: new Player(),
             map: [[]],
-            darkness: false,
+            darkness: true,
+            currentEnemy: {},
             gameOver: false
 
 
@@ -81,7 +81,8 @@ export default class Layout extends React.Component {
 
         //player setup
         let player = this.state.player
-        let playerPos = this.findFreeTile(map)
+        let playerPos = mapGen.playerPos
+
         player.position = playerPos
 
 
@@ -129,8 +130,10 @@ export default class Layout extends React.Component {
     }
 
     move(e) {
-
+        let allowedKeys = [37, 38, 39, 40]
         let key = e.keyCode
+        if(allowedKeys.indexOf(key) < 0) return
+
         let player = this.state.player
         let playerPos = player.position
         let newPos = []
@@ -144,11 +147,13 @@ export default class Layout extends React.Component {
         switch(nextTile.type){
             case 'treasure':
                 player.gold += nextTile.gold 
+                if(player.gold % 25 === 0) player.xp += 25
                 this.setTile(this.state.map, newPos, { type: 'room' })
                 break
 
             case 'weapon':
                 player.weapon = nextTile
+                console.log(player)
                 this.setTile(this.state.map, newPos, { type: 'room' })
                 break
 
@@ -162,6 +167,7 @@ export default class Layout extends React.Component {
                 if(monster.health <= 0){
                     player.xp += monster.xp
                     this.checkLevelUp()
+                    monster = {}
                     this.setTile(this.state.map, newPos, { type: 'room' })    
                     break
                 }
@@ -172,6 +178,7 @@ export default class Layout extends React.Component {
                         this.setState({ gameOver: true })
                     }
                 }
+                this.setState({ currentEnemy: monster })
                 return
 
 
@@ -221,6 +228,22 @@ export default class Layout extends React.Component {
                   viewport={ this.state.viewport } 
                   dark={ this.state.darkness }
                 />
+
+                <Display 
+                    title={'Player Stats'}
+                    health={this.state.player.health}
+                    xp={this.state.player.xp}
+                    level={this.state.player.level}
+                    weapon={this.state.player.weapon.name}
+                />
+
+                <Display 
+                    title={'Enemy Stats'}
+                    health={this.state.currentEnemy.health}
+                    level={this.state.currentEnemy.level}
+
+                />
+
 
                 <Modal 
                     gameover={this.state.gameOver}

@@ -8,7 +8,6 @@ export default class Modal extends React.Component {
 		if( this.props.gameover === false){
 			hiddenClass = ' hidden'
 		}
-		console.log(hiddenClass)
 
 		return(
 			<div className={`gameover-modal ${hiddenClass}`}>

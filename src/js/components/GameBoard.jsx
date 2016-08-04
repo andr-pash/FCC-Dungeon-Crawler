@@ -31,7 +31,9 @@ class GameBoard extends React.Component {
 					let a = Math.abs(plPos[0] - innerInd)
 					let b = Math.abs(plPos[1] - outerInd)
 					if(euclidDistance(a, b) > sight){
-					newEl = innerEl + ' darken'
+					newEl.dark = ' darken'
+					} else {
+						newEl.dark = ''
 					}
 				}
 
@@ -65,7 +67,8 @@ class GameBoard extends React.Component {
 
 								return (
 									<Cell 
-										value={element} 
+										value={element}
+										dark={element.dark} 
 										key={innerIndex}
 										innerIndex={innerIndex}
 										outerIndex={outerIndex} />
