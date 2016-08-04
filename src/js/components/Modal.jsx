@@ -39,7 +39,7 @@ export default class Modal extends React.Component {
 				transitionAppear={true} 
 				transitionAppearTimeout={250}
 				transitionEnterTimeout={250}
-				transitionLeaveTimeout={300}
+				transitionLeaveTimeout={500}
         	>
         		{modal}
         	</ReactCSSTransitionGroup>

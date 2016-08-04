@@ -220,11 +220,15 @@ export default class Layout extends React.Component {
 
     render() {
 
-        let btns = []
+        let btns = { 
+            start: [["Let's Go!", this.startGame]],
+            lost: [['Retry!', this.init]],
+            victory: [['Once More!', this.init]]
+        }
 
         return ( 
             <div className="app-shell">
-                <h1 className="header">FCC Roguelike Dungeon Crawler</h1>
+                <h1 className="header">FCC Roguelike Space Crawler</h1>
                 <GameBoard 
                   gameMap={ this.state.map }
                   player={ this.state.player }
@@ -232,34 +236,11 @@ export default class Layout extends React.Component {
                   dark={ this.state.darkness }
                   enemy={ this.state.currentEnemy }
                   bannerMsg={ this.state.bannerMsg }
+                  gameStatus={ this.state.gameStatus }
+                  btns={ btns }
                 >  
+
                 </GameBoard>
-
-
-                <Modal 
-                    switch={ this.state.gameStatus === 'start' }
-                    btns={ [["Let's Go!", this.startGame]] }
-                    text={ 'Only the brave will persevere!' }
-                    modifier={ 'start' }
-                    key={ 'start' }
-                />
-
-                <Modal 
-                    switch={this.state.gameStatus === 'lost'}
-                    btns={[['Retry!', this.init]]}
-                    text={'You Lose!'}
-                    modifier={'gameover'}
-                    key={'gameover'}
-                />
-
-                <Modal 
-                    switch={this.state.gameStatus === 'victory'}
-                    btns={ [['Once More!', this.init]]}
-                    text={ 'Unbelievable! You saved the day. No... THE UNIVERSE!' }
-                    modifier={ 'victory' }
-                    key={ 'victory' }
-                />
-
             </div>
         );
     }

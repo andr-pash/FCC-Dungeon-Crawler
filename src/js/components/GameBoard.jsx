@@ -2,6 +2,7 @@ import React from 'react'
 import Cell from './Cell.jsx'
 import Display from "./Display.jsx"
 import Banner from './Banner.jsx'
+import Modal from './Modal.jsx'
 
 
 const euclidDistance = (a, b) => {
@@ -119,6 +120,35 @@ class GameBoard extends React.Component {
 	  						data={compData}
 	                    />
                     </div>
+
+
+
+	                <Modal 
+	                    switch={ this.props.gameStatus === 'start' }
+	                    btns={ this.props.btns.start }
+	                    text={ 'Only the brave will persevere!' }
+	                    modifier={ 'start' }
+	                    key={ 'start' }
+	                />
+
+	                <Modal 
+	                    switch={this.props.gameStatus === 'lost'}
+	                    btns={ this.props.btns.lost }
+	                    text={'You Lose!'}
+	                    modifier={'gameover'}
+	                    key={'gameover'}
+	                />
+
+	                <Modal 
+	                    switch={this.props.gameStatus === 'victory'}
+	                    btns={ this.props.btns.victory }
+	                    text={ 'Unbelievable! You saved the day. No... THE UNIVERSE!' }
+	                    modifier={ 'victory' }
+	                    key={ 'victory' }
+	                />
+	                
+
+
 				</div>					
 			)
 	}
