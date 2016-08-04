@@ -40,8 +40,8 @@ export default class Layout extends React.Component {
 
         this.state = {
             viewport: {
-                rows: 40,
-                columns: 60
+                rows: 30,
+                columns: 50
             },
             mapSize: {
                 rows: 100,
@@ -153,7 +153,11 @@ export default class Layout extends React.Component {
 
             case 'weapon':
                 player.weapon = nextTile
-                console.log(player)
+                this.setTile(this.state.map, newPos, { type: 'room' })
+                break
+
+            case 'torch':
+                player.sight = nextTile.sight
                 this.setTile(this.state.map, newPos, { type: 'room' })
                 break
 

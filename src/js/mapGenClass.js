@@ -46,6 +46,13 @@ function Weapon(name, damage, chance){
     this.chance = chance
 }
 
+
+function Torch(name, sight){
+    this.type = 'torch'
+    this.name = name
+    this.sight = sight
+}
+
 class MapGenerator {
 
     constructor(x, y){
@@ -70,6 +77,9 @@ class MapGenerator {
         this.fillSpecificRoom( () => new Weapon('Dagger', 6, .4), 10)
         this.fillSpecificRoom( () => new Weapon('Small Axe', 7, .35), 15)
         this.fillSpecificRoom( () => new Weapon('Sword', 8, .2), 25)
+        this.fillSpecificRoom( () => new Torch('Small Torch', 6), 3)
+        this.fillSpecificRoom( () => new Torch('Medium Torch', 8), 15)
+        this.fillSpecificRoom( () => new Torch('Giant Torch', 12), 20)
         this.fillSpecificRoom( () => new Boss(), this.rooms.length - 1 )
         this.playerPos = this.findFreeTile(this.rooms[0])
 

@@ -1,29 +1,46 @@
+
+
 .gameboard
 	background: grey
+	margin: auto
 
 .cell
 	display:block
-	height: 15px
-	width: 15px
-	background: grey
+	height: 25px
+	width: 25px
+	background:
+		image: url('../img/walls.png')
+		size: cover
 
 .player
 	background: black
+	z-index: 500
 
 .room
-	background: white
+	background:
+		image: url('../img/floor.png')
+		size: cover
 
 .treasure
 	background: gold
 
 .monster
-	background: red
+	background:
+		image: url('../img/monster.png')
+		size: cover
 
 .weapon
-	background: orange
+	background:
+		image: url('../img/sword.png')
+		size: cover
 
 .potion
 	background: green
+
+.torch
+	background:
+		image: url('../img/torch.png')
+		size: cover
 
 .boss
 	background: violet
