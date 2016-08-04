@@ -19,7 +19,7 @@ export default class Layout extends React.Component {
 
         this.state = {
             viewport: {
-                rows: 30,
+                rows: 25,
                 columns: 50
             },
             mapSize: {
@@ -131,7 +131,7 @@ export default class Layout extends React.Component {
                 break
 
             case 'weapon':
-            
+
                 if(player.level < nextTile.reqLevel) break
 
                 if(nextTile.damage > player.weapon.damage){
@@ -214,27 +214,17 @@ export default class Layout extends React.Component {
 
                 <h1>FCC Rogue Dungeon Crawler</h1>
 
+
                 <GameBoard 
                   gameMap={ this.state.map }
                   player={ this.state.player }
                   viewport={ this.state.viewport } 
                   dark={ this.state.darkness }
-                />
+                  enemy={ this.state.currentEnemy }
+                >  
+                </GameBoard>
 
-                <Display 
-                    title={'Player Stats'}
-                    health={this.state.player.health}
-                    xp={this.state.player.xp}
-                    level={this.state.player.level}
-                    weapon={this.state.player.weapon.name}
-                />
 
-                <Display 
-                    title={'Enemy Stats'}
-                    health={this.state.currentEnemy.health}
-                    level={this.state.currentEnemy.level}
-
-                />
 
 
                 <Modal 

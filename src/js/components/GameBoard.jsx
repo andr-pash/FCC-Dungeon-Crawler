@@ -1,5 +1,6 @@
 import React from 'react'
 import Cell from './Cell.jsx'
+import Display from "./Display.jsx"
 
 
 const euclidDistance = (a, b) => {
@@ -84,11 +85,30 @@ class GameBoard extends React.Component {
 
 
 		return(
-				<table className="gameboard">
-					<tbody>
-						{cellsRows}
-					</tbody>
-				</table>
+				<div className="gameboard-container">
+					
+
+					<table className="gameboard">
+						<tbody>
+							{cellsRows}
+						</tbody>
+					</table>
+					<div className='game-display'>
+					 <Display
+                        title={'Player Stats'}
+                        health={this.props.player.health}
+                        xp={this.props.player.xp}
+                        level={this.props.player.level}
+                        weapon={this.props.player.weapon.name}
+                    />
+
+                    <Display 
+                        title={'Enemy Stats'}
+                        health={this.props.enemy.health}
+                        level={this.props.enemy.level}
+                    />
+                    </div>
+				</div>					
 			)
 	}
 }
