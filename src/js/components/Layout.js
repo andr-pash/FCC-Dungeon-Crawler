@@ -29,7 +29,7 @@ export default class Layout extends React.Component {
             },
             player: new Player(),
             map: [[]],
-            darkness: true,
+            darkness: false,
             currentEnemy: {},
             gameStatus: 'start', // running gameover victory start
             bannerMsg: ''
@@ -40,6 +40,7 @@ export default class Layout extends React.Component {
         this.move = this.move.bind(this)
         this.setBannerMsg = this.setBannerMsg.bind(this)
         this.startGame = this.startGame.bind(this)
+        this.fire = this.fire.bind(this)
 
     }
 
@@ -76,6 +77,11 @@ export default class Layout extends React.Component {
     }
 
 
+    fire(){
+        this.setState({ bannerMsg: 'buh' })
+        setTimeout( () => this.setState({ bannerMsg: '' }), 1500)
+    }
+
     setBannerMsg(msg){
         this.setState({ bannerMsg: msg })
         setTimeout( () => this.setState({ bannerMsg: '' }), 1500)
@@ -99,6 +105,7 @@ export default class Layout extends React.Component {
     }
 
     move(e) {
+        e.preventDefault()
         let allowedKeys = [37, 38, 39, 40]
         let key = e.keyCode
         if(allowedKeys.indexOf(key) < 0) return
@@ -239,8 +246,8 @@ export default class Layout extends React.Component {
                   gameStatus={ this.state.gameStatus }
                   btns={ btns }
                 >  
-
                 </GameBoard>
+                <button onClick={this.fire}></button>
             </div>
         );
     }
