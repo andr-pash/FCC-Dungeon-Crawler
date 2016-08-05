@@ -7,7 +7,7 @@ import { Monster, Torch, Weapon, Boss, Potion, Treasure} from './dungeonstuff.js
 
 class MapGenerator {
 
-    constructor(x, y, options){
+    constructor(x, y){
 
         this.mapSizeX = x
         this.mapSizeY = y

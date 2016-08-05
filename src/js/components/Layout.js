@@ -129,9 +129,17 @@ export default class Layout extends React.Component {
         let nextTile = this.state.map[newPos[1]][newPos[0]]
         
         switch(nextTile.type){
+
             case 'treasure':
+
                 player.gold += nextTile.gold 
-                if(player.gold % 25 === 0) player.xp += 25
+
+                // TODO: formalize this!
+                if(player.gold > 24) player.xp += 25
+                if(player.gold > 74) player.xp += 30
+                if(player.gold > 150) player.xp += 35
+                if(player.gold > 250) player.xp += 40
+
                 this.setTile(this.state.map, newPos, { type: 'room' })
                 this.setBannerMsg('Gold Digger!')
                 break
@@ -235,6 +243,7 @@ export default class Layout extends React.Component {
 
         return ( 
             <div className="app-shell">
+
                 <h1 className="header">FCC Roguelike Space Crawler</h1>
                 <GameBoard 
                   gameMap={ this.state.map }
@@ -245,9 +254,9 @@ export default class Layout extends React.Component {
                   bannerMsg={ this.state.bannerMsg }
                   gameStatus={ this.state.gameStatus }
                   btns={ btns }
-                >  
-                </GameBoard>
+                />  
                 <div className="footer">Build for FreeCodeCamp by Andreas Pashalides. </div>
+
             </div>
         );
     }
