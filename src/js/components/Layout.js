@@ -227,7 +227,7 @@ export default class Layout extends React.Component {
                 break
 
             case 'wall':
-                Math.random()>0.85?this.setBannerMsg('Ouch!'): ''
+                Math.random()>0.95?this.setBannerMsg('Ouch!'): ''
                 return
             default:
         }
