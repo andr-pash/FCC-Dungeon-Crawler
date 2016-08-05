@@ -29,7 +29,7 @@ export default class Layout extends React.Component {
             },
             player: new Player(),
             map: [[]],
-            darkness: false,
+            darkness: true,
             currentEnemy: {},
             gameStatus: 'start', // running gameover victory start
             bannerMsg: ''
@@ -100,7 +100,6 @@ export default class Layout extends React.Component {
         if(this.state.player.xp >= 800){
             this.state.player.level = 5
         }
-        console.log(this.state.player)
 
     }
 
@@ -160,6 +159,7 @@ export default class Layout extends React.Component {
 
 
             case 'boss':
+            case 'boss-body':
 
             case 'monster':
                 let monster = nextTile
@@ -247,7 +247,7 @@ export default class Layout extends React.Component {
                   btns={ btns }
                 >  
                 </GameBoard>
-                <button onClick={this.fire}></button>
+                <div className="footer">Build for FreeCodeCamp by Andreas Pashalides. </div>
             </div>
         );
     }

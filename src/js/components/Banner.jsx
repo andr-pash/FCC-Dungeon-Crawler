@@ -15,11 +15,11 @@ class Banner extends React.Component {
 
 		return(
 			<ReactCSSTransitionGroup
-			transitionName="bannerAnimation"
-			transitionAppear={true}
-			transitionAppearTimeout={300}
-			transitionEnterTimeout={300}
-			transitionLeaveTimeout={600}
+				transitionName="bannerAnimation"
+				transitionAppear={true}
+				transitionAppearTimeout={300}
+				transitionEnterTimeout={300}
+				transitionLeaveTimeout={600}
 			>	
 				{message}
 			</ReactCSSTransitionGroup>

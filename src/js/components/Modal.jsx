@@ -6,7 +6,7 @@ export default class Modal extends React.Component {
 	createModal(text, btns, modifier){ // string 2d-array --> [[text, function]] string
 		
 		return (
-			<div className={`game-modal ${modifier}`}>
+			<div className={`game-modal ${modifier}`} key={modifier}>
 				<div className={`game-modal__inner ${modifier}`}>
 					<h2>{text}</h2>
 

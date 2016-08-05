@@ -36,7 +36,10 @@ class MapGenerator {
         this.fillSpecificRoom( () => new Torch('Medium Torch', 8), 15)
         this.fillSpecificRoom( () => new Torch('Giant Torch', 12), 20)
         this.fillSpecificRoom( () => new Boss(), this.rooms.length - 1 )
+
         this.playerPos = this.findFreeTile(this.rooms[0])
+
+
 
         
     }
@@ -58,9 +61,42 @@ class MapGenerator {
 
     fillSpecificRoom(type , roomNumber){
 
-        let room = this.rooms[roomNumber]
-        let pos = this.findFreeTile(room)
+        const room = this.rooms[roomNumber]
+        const pos = this.findFreeTile(room)
+
+        // Boss needs four tiles
+        if(type().type === 'boss'){
+
+            //check if neighbors are free, else start again
+            let neighbors = [
+                    [ pos[0] + 1, pos[1] ],
+                    [ pos[0], pos[1] + 1 ],
+                    [ pos[0] + 1, pos[1] + 1 ]
+            ]
+
+            let neighborsFree = 0
+            neighbors.map( el => {
+                this.gameMap[el[1]][el[0]].type === 'room' ? neighborsFree += 1 : ''
+                })
+
+            if(neighborsFree === 3){
+                let boss = type()
+                this.setTile(pos, boss)
+                boss.type = 'boss-body'
+                neighbors.map( el => {
+                    this.setTile(el, boss)
+                })
+
+            } else {
+                console.log('recursive!')
+                this.fillSpecificRoom(type, roomNumber)
+                return
+            }
+
+        }
+
         this.setTile(pos, type())
+
     }
 
 
