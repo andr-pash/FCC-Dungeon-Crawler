@@ -107,7 +107,7 @@ export default class Layout extends React.Component {
         e.preventDefault()
         let allowedKeys = [37, 38, 39, 40]
         let key = e.keyCode
-        if(allowedKeys.indexOf(key) < 0) return
+        if(allowedKeys.indexOf(key) < 0 || this.state.gameStatus !== 'running') return
 
         let player = this.state.player
         let playerPos = player.position
@@ -220,7 +220,7 @@ export default class Layout extends React.Component {
                 break
 
             case 'wall':
-                Math.random()>0.7?this.setBannerMsg('Ouch!'): ''
+                Math.random()>0.85?this.setBannerMsg('Ouch!'): ''
                 return
             default:
         }
