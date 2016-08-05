@@ -164,7 +164,8 @@ export default class Layout extends React.Component {
 
                 let before = player.gold
                 player.gold += nextTile.gold 
-
+                this.setBannerMsg('Gold Digger!')
+                
                 cutOffVals.map( (el, i) => {
                     if(before < el && player.gold >= el){
                         this.increaseXP(xpRewards[i])
@@ -172,7 +173,6 @@ export default class Layout extends React.Component {
                 })
 
                 this.setTile(this.state.map, newPos, { type: 'room' })
-                this.setBannerMsg('Gold Digger!')
                 break
 
             case 'weapon':
