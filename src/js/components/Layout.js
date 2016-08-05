@@ -161,11 +161,11 @@ export default class Layout extends React.Component {
 
                 let cutOffVals = [ 25, 75, 150, 250 ]
                 let xpRewards = [ 25, 30, 35, 40 ]
-
                 let before = player.gold
+
                 player.gold += nextTile.gold 
                 this.setBannerMsg('Gold Digger!')
-                
+
                 cutOffVals.map( (el, i) => {
                     if(before < el && player.gold >= el){
                         this.increaseXP(xpRewards[i])
@@ -241,7 +241,7 @@ export default class Layout extends React.Component {
             case 'potion':
                 if(player.health < 100){
                     player.health += nextTile.strength
-                    if(player.health > 100) player.health = 100
+                    player.health = Math.min(player.health, 100)
 
                     this.setBannerMsg("Ahhh yisss. That's what keeps a space cowboy going!")    
                     this.setTile(this.state.map, newPos, { type: 'room' })

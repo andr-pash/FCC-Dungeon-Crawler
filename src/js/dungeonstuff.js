@@ -69,7 +69,7 @@ function Player() {
     this.sight = 5
     this.strength = 5
     this.armor = 0
-    this.gold = 24
+    this.gold = 0
     this.lives = 0
     this.attack = function(target){
         let damage = this.weapon.damage * this.strength * this.level
