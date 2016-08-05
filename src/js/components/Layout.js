@@ -52,6 +52,13 @@ export default class Layout extends React.Component {
 
 
     init() {
+
+        let viewport = this.state.viewport
+        if( window.innerWidth < 1280){
+            viewport.columns = Math.floor((window.innerWidth - 40) / 30)
+            viewport.rows = Math.floor((window.innerHeight - 40) / 30)
+        }
+
         let mapGen = new MapGen(this.state.mapSize.columns, this.state.mapSize.rows)
         mapGen.createMap()
         let map = mapGen.gameMap
@@ -61,7 +68,7 @@ export default class Layout extends React.Component {
         let playerPos = mapGen.playerPos
         player.position = playerPos
 
-        this.setState({ map,  player, gameStatus: 'start', currentEnemy: {} })
+        this.setState({ map,  player, viewport, gameStatus: 'start', currentEnemy: {} })
     }
 
 
