@@ -146,7 +146,12 @@ export default class Layout extends React.Component {
 
             case 'weapon':
 
-                if(player.level < nextTile.reqLevel) break
+                if(player.level < nextTile.reqLevel) {
+                    let msg = `Sorry! You are not trained enough to carry this ${nextTile.name}.
+                                Come back when you are at least level ${nextTile.reqLevel}.`
+                    this.setBannerMsg(msg)
+                    break    
+                } 
 
                 if(nextTile.damage > player.weapon.damage){
                     player.weapon = nextTile

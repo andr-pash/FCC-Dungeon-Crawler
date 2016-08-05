@@ -38,9 +38,6 @@ class MapGenerator {
         this.fillSpecificRoom( () => new Boss(), this.rooms.length - 1 )
 
         this.playerPos = this.findFreeTile(this.rooms[0])
-
-
-
         
     }
 
@@ -125,9 +122,12 @@ class MapGenerator {
         return pos
     }
 
+
+
     setTile(position, type){
         this.gameMap[position[1]][position[0]] = type
     }
+
 
 
     createRooms() {
