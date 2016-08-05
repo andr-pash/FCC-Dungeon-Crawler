@@ -26,7 +26,7 @@ export default class Layout extends React.Component {
             },
             player: new Player(),
             map: [[]],
-            darkness: false,
+            darkness: true,
             currentEnemy: {},
             gameStatus: 'start', // running gameover victory start
             bannerMsg: ''
@@ -296,7 +296,9 @@ export default class Layout extends React.Component {
                   gameStatus={ this.state.gameStatus }
                   btns={ btns }
                 />  
-                <div className="footer">Build for FreeCodeCamp by Andreas Pashalides. </div>
+                <div className="footer">Build for FreeCodeCamp by Andreas Pashalides.
+                    <span className='logo'></span>
+                 </div>
 
             </div>
         );

@@ -1,0 +1,17 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="30px" height="30px" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.41421;">
+    <g>
+        <g>
+            <clipPath id="tag1">
+                <path d="M14.9584,7.13027C17.9145,1.56748 23.8268,1.56748 26.7829,4.34888C29.7392,7.13027 29.7392,12.6931 26.7829,18.2558C24.7136,22.4279 19.3926,26.6 14.9584,29.3814C10.5242,26.6 5.20315,22.4279 3.13385,18.2558C0.177712,12.6931 0.177712,7.13027 3.13385,4.34888C6.08999,1.56748 12.0022,1.56748 14.9584,7.13027Z"/>
+            </clipPath>
+            <g clip-path="url(#tag1)">
+                <g>
+                    <rect x="0" y="2.52191" width="30" height="27.4781" style="fill:rgb(128,0,64);"/>
+                </g>
+            </g>
+            <path d="M14.9584,7.13027C17.9145,1.56748 23.8268,1.56748 26.7829,4.34888C29.7392,7.13027 29.7392,12.6931 26.7829,18.2558C24.7136,22.4279 19.3926,26.6 14.9584,29.3814C10.5242,26.6 5.20315,22.4279 3.13385,18.2558C0.177712,12.6931 0.177712,7.13027 3.13385,4.34888C6.08999,1.56748 12.0022,1.56748 14.9584,7.13027Z" style="fill:none;stroke-width:1px;stroke:black;"/>
+        </g>
+    </g>
+</svg>

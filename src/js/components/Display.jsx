@@ -1,11 +1,23 @@
 import React from 'react'
 import DisplayCell from './DisplayCell.jsx'
+import HealthBar from './HealthBar.jsx'
 
 
 class Display extends React.Component{
 	render(){
 
 		let dispCells = this.props.data.map( (el, i) => {
+
+
+				if(el.title === 'Health'){
+					return (
+						<HealthBar 
+							val={el.value}
+						/>
+						)
+
+				}
+
 
 				return (
 					<DisplayCell
