@@ -81,7 +81,7 @@ export default class Layout extends React.Component {
 
     setBannerMsg(msg){
         this.setState({ bannerMsg: msg })
-        setTimeout( () => this.setState({ bannerMsg: '' }), 1500)
+        setTimeout( () => this.setState({ bannerMsg: '' }), 2000)
     }
 
     checkLevelUp(){
@@ -155,16 +155,17 @@ export default class Layout extends React.Component {
 
                 if(nextTile.damage > player.weapon.damage){
                     player.weapon = nextTile
+                    let msg = `Awesome! You are now carrying a ${nextTile.name}.
+                                Watch out you slimy octopussies!`
                 }   
                 this.setTile(this.state.map, newPos, { type: 'room' })
                 break
 
             case 'torch':
-                if(nextTile.sight > player.sight){
-                    player.sight = nextTile.sight
-                }
+
+                player.sight += nextTile.sight
                 this.setTile(this.state.map, newPos, { type: 'room' })
-                this.setBannerMsg('There shall be light!')
+                this.setBannerMsg(`There shall be light! Your flashlight has been upgraded by a whole ${nextTile.sight} space time length units.`)
                 break
 
 
@@ -209,11 +210,14 @@ export default class Layout extends React.Component {
                 if(player.health < 100){
                     player.health += nextTile.strength
                     if(player.health > 100) player.health = 100
+
+                    this.setBannerMsg("Ahhh yisss. That's what keeps a space cowboy going!")    
                     this.setTile(this.state.map, newPos, { type: 'room' })
                 }
                 break
 
             case 'wall':
+                Math.random()>0.7?this.setBannerMsg('Ouch!'): ''
                 return
             default:
         }
