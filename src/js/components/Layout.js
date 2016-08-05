@@ -2,12 +2,9 @@ import React from "react";
 import ReactCSSTransitionGroup from "react-addons-css-transition-group"
 import GameBoard from "./GameBoard.jsx"
 import Display from "./Display.jsx"
-import Modal from "./Modal.jsx"
 import MapGen from "../mapGenClass.js"
 import { Player } from "../dungeonstuff.js"
-// import { generateArray, addRooms, createRooms, intRange } from '../mapgenerator.js'
-//import inventory from '../dungeonstuff.js'
-//console.log(inventory)
+
 
 function intRange(a, b) {
         return Math.floor(Math.random() * ((b + 1) - a)) + a
@@ -160,6 +157,11 @@ export default class Layout extends React.Component {
 
             case 'boss':
             case 'boss-body':
+                let boss = nextTile
+
+                if(boss.health <= 0){
+                    this.setState({ gameStatus: 'victory' })
+                }
 
             case 'monster':
                 let monster = nextTile
@@ -220,8 +222,6 @@ export default class Layout extends React.Component {
                 lastMove = new Date()
                 this.move(e)
             }
-
-
         }.bind(this), false)
     }
 
