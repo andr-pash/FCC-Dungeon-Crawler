@@ -34,7 +34,7 @@ class MapGenerator {
         this.fillSpecificRoom( () => new Weapon('Laser Sword', 8, .2, 4), 25)
         this.fillSpecificRoom( () => new Torch('Small Flashlight', 1), 3)
         this.fillSpecificRoom( () => new Torch('Medium Flashlight', 2), 15)
-        this.fillSpecificRoom( () => new Torch('Giant Flashlight', 4), 20)
+        this.fillSpecificRoom( () => new Torch('Giant Flashlight', 3), 20)
         this.fillSpecificRoom( () => new Boss(), this.rooms.length - 1 )
 
         this.playerPos = this.findFreeTile(this.rooms[0])

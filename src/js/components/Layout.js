@@ -142,13 +142,17 @@ export default class Layout extends React.Component {
 
             case 'treasure':
 
+                let cutOffVals = [ 25, 75, 150, 250 ]
+                let xpRewards = [ 25, 30, 35, 40 ]
+
+                let before = player.gold
                 player.gold += nextTile.gold 
 
-                // TODO: this is absolute bull... 
-                // if(player.gold > 24) player.xp += 25
-                // if(player.gold > 74) player.xp += 30
-                // if(player.gold > 150) player.xp += 35
-                // if(player.gold > 250) player.xp += 40
+                cutOffVals.map( (el, i) => {
+                    if(before < el && player.gold >= el){
+                        player.xp += xpRewards[i]
+                    }
+                })
 
                 this.setTile(this.state.map, newPos, { type: 'room' })
                 this.setBannerMsg('Gold Digger!')
@@ -167,6 +171,7 @@ export default class Layout extends React.Component {
                     player.weapon = nextTile
                     let msg = `Awesome! You are now carrying a ${nextTile.name}.
                                 Watch out you slimy octopussies!`
+                    this.setBannerMsg(msg)
                 }   
                 this.setTile(this.state.map, newPos, { type: 'room' })
                 break
