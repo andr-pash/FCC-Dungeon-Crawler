@@ -137,11 +137,11 @@ export default class Layout extends React.Component {
 
                 player.gold += nextTile.gold 
 
-                // TODO: formalize this!
-                if(player.gold > 24) player.xp += 25
-                if(player.gold > 74) player.xp += 30
-                if(player.gold > 150) player.xp += 35
-                if(player.gold > 250) player.xp += 40
+                // TODO: this is absolute bull... 
+                // if(player.gold > 24) player.xp += 25
+                // if(player.gold > 74) player.xp += 30
+                // if(player.gold > 150) player.xp += 35
+                // if(player.gold > 250) player.xp += 40
 
                 this.setTile(this.state.map, newPos, { type: 'room' })
                 this.setBannerMsg('Gold Digger!')
