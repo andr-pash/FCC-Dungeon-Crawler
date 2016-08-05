@@ -26,7 +26,7 @@ export default class Layout extends React.Component {
             },
             player: new Player(),
             map: [[]],
-            darkness: true,
+            darkness: false,
             currentEnemy: {},
             gameStatus: 'start', // running gameover victory start
             bannerMsg: ''
@@ -82,6 +82,7 @@ export default class Layout extends React.Component {
     }
 
 
+    // remove after dev
     fire(){
         this.setState({ bannerMsg: 'buh' })
         setTimeout( () => this.setState({ bannerMsg: '' }), 1500)
@@ -95,6 +96,8 @@ export default class Layout extends React.Component {
 
 
     checkLevelUp(){
+        let before = this.state.player.level
+
         if(this.state.player.xp >= 100){
             this.state.player.level = 2
         }
@@ -107,6 +110,20 @@ export default class Layout extends React.Component {
         if(this.state.player.xp >= 800){
             this.state.player.level = 5
         }
+
+        let after = this.state.player.level
+
+        if( before < after){
+            this.setBannerMsg('Upping the level!')
+        }
+    }
+
+
+    increaseXP(xp){
+        this.state.player.xp += xp
+        this.setBannerMsg(`That's what I call experience. \n 
+                            +${xp}XP!`)
+        this.checkLevelUp()
     }
 
 
@@ -150,7 +167,7 @@ export default class Layout extends React.Component {
 
                 cutOffVals.map( (el, i) => {
                     if(before < el && player.gold >= el){
-                        player.xp += xpRewards[i]
+                        this.increaseXP(xpRewards[i])
                     }
                 })
 
