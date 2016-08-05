@@ -43,31 +43,32 @@ export default class Layout extends React.Component {
 
     componentWillMount() {
         this.init()
-
     }
+
 
     componentDidMount() {
         this.handleMovement()
     }
+
 
     init() {
         let mapGen = new MapGen(this.state.mapSize.columns, this.state.mapSize.rows)
         mapGen.createMap()
         let map = mapGen.gameMap
 
-
         //player setup
         let player = new Player()
         let playerPos = mapGen.playerPos
         player.position = playerPos
 
-
         this.setState({ map,  player, gameStatus: 'start', currentEnemy: {} })
     }
+
 
     startGame(){
         this.setState({ gameStatus: 'running' })
     }
+
 
     setTile(map, position, type){
         map[position[1]][position[0]] = type
@@ -79,10 +80,12 @@ export default class Layout extends React.Component {
         setTimeout( () => this.setState({ bannerMsg: '' }), 1500)
     }
 
+
     setBannerMsg(msg){
         this.setState({ bannerMsg: msg })
         setTimeout( () => this.setState({ bannerMsg: '' }), 2000)
     }
+
 
     checkLevelUp(){
         if(this.state.player.xp >= 100){
@@ -97,8 +100,8 @@ export default class Layout extends React.Component {
         if(this.state.player.xp >= 800){
             this.state.player.level = 5
         }
-
     }
+
 
     move(e) {
         e.preventDefault()
@@ -228,7 +231,6 @@ export default class Layout extends React.Component {
     }
 
 
-
     handleMovement() {
 
         let lastMove = 0
@@ -241,6 +243,7 @@ export default class Layout extends React.Component {
             }
         }.bind(this), false)
     }
+
 
     render() {
 
