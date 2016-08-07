@@ -26,7 +26,7 @@ export default class Layout extends React.Component {
             },
             player: new Player(),
             map: [[]],
-            darkness: false,
+            darkness: true,
             currentEnemy: {},
             gameStatus: 'start', // running gameover victory start
             bannerMsg: ''
@@ -37,6 +37,7 @@ export default class Layout extends React.Component {
         this.move = this.move.bind(this)
         this.setBannerMsg = this.setBannerMsg.bind(this)
         this.startGame = this.startGame.bind(this)
+        this.restartGame = this.restartGame.bind(this)
         this.fire = this.fire.bind(this)
 
     }
@@ -74,6 +75,11 @@ export default class Layout extends React.Component {
 
     startGame(){
         this.setState({ gameStatus: 'running' })
+    }
+
+    restartGame(){
+        this.init()
+        this.startGame()
     }
 
 
@@ -278,7 +284,7 @@ export default class Layout extends React.Component {
 
         let btns = { 
             start: [["Let's Go!", this.startGame]],
-            lost: [['Retry!', this.init]],
+            lost: [['Retry!', this.restartGame]],
             victory: [['Once More!', this.init]]
         }
 
