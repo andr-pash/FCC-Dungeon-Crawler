@@ -15,9 +15,13 @@ body
 
 .cell
 	display:block
+	position: relative
 	height: 30px
 	width: 30px
-
+	background:
+		image: url('../img/space-floor.png')
+		size: contain
+	box-shadow: none
 
 .wall
 	background:
@@ -28,66 +32,92 @@ body
 .player
 	z-index: 500
 
+.item
+	position: absolute
+	top: 0
+	left: 0
+	-webkit-filter: drop-shadow(5px 5px 5px #000)
+	z-index: 500
 
-.player.up
-	background:
-		image: url('../img/space-player-back.png')
-		size: cover
+img.treasure
+	animation:
+		name: twist
+		duration: 3s 
+		delay: 500ms
+		timing-function: ease-in-out 
+		iteration-count: infinite
 
-.player.down
-	background:
-		image: url('../img/space-player-front.png')
-		size: cover
+img.weapon,
+img.potion,
+img.torch
+	animation: 
+		name: shake
+		timing-function: ease-in
+		iteration-count: infinite		
 
-.player.left
-	background:
-		image: url('../img/space-player-side-left.png')
-		size: cover
+img.weaopn
+	animation:
+		duration: 3s
+		delay: 500ms			
 
-.player.right	
-	background:
-		image: url('../img/space-player-side-right.png')
-		size: cover
+img.potion
+	animation:
+		duration: 3.5s
+		delay: 600ms
+
+img.torch
+	animation:
+		duration: 4s
+		delay: 700ms	
+
+img.monster
+	animation:
+		name: hover
+		direction: alternate
+		duration: 0.6s
+		timing-function: linear
+		iteration-count: infinite					
+
+@keyframes twist 
+	0%
+		transform: rotateY(0deg)
+	20%
+		transform: rotateY(360deg)
+	100%
+		transform: rotateY(360deg)
+
+@keyframes shake
+	0% 
+		transform-origin: 50% 50%
+		transform: scale(1) rotate(0deg)
+	5%
+		transform: scale(1.05) rotate(5deg)		
+	10%
+		transform: scale(1.05) rotate(-5deg)		
+	15%
+		transform: scale(1.05) rotate(5deg)		
+	20%
+		transform: scale(1.05) rotate(-5deg)		
+	25%
+		transform: scale(1) rotate(0deg)
+	100%
+
+@keyframes hover
+	0% 
+		transform: scale(1) translateY(0px)
+	100% 
+		transform: scale(1.05) translateY(-2px)
 
 
-.room
-	background:
-		image: url('../img/space-floor.png')
-		size: contain
-	box-shadow: none
 
-.treasure
-	background:
-		image: url('../img/space-treasure.png')
-		size: cover
+// .room
+// 	background:
+// 		image: url('../img/space-floor.png')
+// 		size: contain
+// 	box-shadow: none
 
-.monster
-	background:
-		image: url('../img/space-monster.png')
-		size: cover
-
-.weapon
-	background:
-		image: url('../img/space-weapon.png')
-		size: cover
-
-.potion
-	background:
-		image: url('../img/space-potion.png')
-		size: cover
-
-
-.torch
-	background:
-		image: url('../img/space-torch.png')
-		size: cover
-
-.boss
-	background:
-		image: url('../img/boss-snail.gif')
-		size: cover
-	transform-origin: top left
-	transform: scale(2)
+// .item
+// 	background: transparent	
 
 .darken
 	background: black

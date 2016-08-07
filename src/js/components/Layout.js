@@ -26,7 +26,7 @@ export default class Layout extends React.Component {
             },
             player: new Player(),
             map: [[]],
-            darkness: true,
+            darkness: false,
             currentEnemy: {},
             gameStatus: 'start', // running gameover victory start
             bannerMsg: ''
