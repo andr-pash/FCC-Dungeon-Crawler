@@ -6,11 +6,7 @@ var path = require('path');
 module.exports = {
   context: path.join(__dirname, "src"),
   devtool: debug ? "inline-sourcemap" : null,
-  entry: {
-          app: ['webpack-dev-server/client?http://127.0.0.1:8080',
-          'webpack/hot/dev-server',
-          "./js/client.js"]
-        } ,
+  entry: "./js/client.js" ,
   module: {
     loaders: [
       {

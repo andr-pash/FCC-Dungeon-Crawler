@@ -28,6 +28,7 @@
   },
   "scripts": {
     "dev": "webpack-dev-server --host 0.0.0.0 --content-base src --inline --hot",
+    "start": "webpack --content-base src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
